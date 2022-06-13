@@ -1,3 +1,3 @@
 # Learn New Words
 
-Öğrendiğimiz kelimeleri tutabileceğiniz bir web sitesi
+Öğrendiğiniz kelimeleri tutabileceğiniz bir web sitesi
