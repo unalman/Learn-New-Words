@@ -4,7 +4,7 @@
 
 <style scoped>
 div {
-  font-size: 1.4vh;
+  font-size: 1rem;
   text-align: center;
   height: 100%;
   background-color: rgb(211, 211, 211);
