@@ -6,15 +6,15 @@ import BaseFooterVue from "./components/BaseFooter.vue";
 
 <template>
   <div class="grid-container">
-    <div class="item item-1">
+    <header class="item item-1">
       <BaseHeaderVue></BaseHeaderVue>
-    </div>
-    <div class="item item-2">
-      <BaseMainVue></BaseMainVue>
-    </div>
-    <div class="item item-3">
+    </header>
+    <main class="item item-2">
+       <router-view />
+    </main>
+    <footer class="item item-3">
       <BaseFooterVue></BaseFooterVue>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -50,11 +50,13 @@ import BaseFooterVue from "./components/BaseFooter.vue";
 .item-1 {
   height: 6.6vh;
   min-width: 331px;
+  min-height: 60.38px;
 }
 .item-2 {
   height: 91.4vh;
 }
 .item-3 {
   height: 2vh;
+  min-height: 17px;
 }
 </style>

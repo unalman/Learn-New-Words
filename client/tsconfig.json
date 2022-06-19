@@ -10,5 +10,6 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ]
+  ],
+  "semicolon": [true, "always", "ignore-bound-class-methods"]
 }
