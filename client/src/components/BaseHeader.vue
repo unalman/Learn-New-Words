@@ -9,6 +9,7 @@
 
 <style scoped>
 nav {
+  height: 100%;
   font-size: 1.2rem;
   background-color: rgb(230, 182, 124);
   display: flex;
@@ -17,9 +18,12 @@ nav ul {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
+  box-sizing: border-box;
 }
 ul li {
   list-style-type: none;
+  align-self: center;
+  margin-right: auto;
 }
 nav a {
   text-decoration: none;
@@ -30,9 +34,9 @@ nav a:hover {
   text-decoration: none;
 }
 nav ul li:first-child {
-  margin-right: auto;
+  margin-left: 1rem;
 }
 ul li:nth-child(2) {
-  margin-right: 2rem;
+  margin-right: 1rem;
 }
 </style>
