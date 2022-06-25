@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BaseHeaderVue from "./components/BaseHeader.vue";
-import BaseMainVue from "./components/BaseMain.vue";
 import BaseFooterVue from "./components/BaseFooter.vue";
 </script>
 
@@ -10,7 +9,7 @@ import BaseFooterVue from "./components/BaseFooter.vue";
       <BaseHeaderVue></BaseHeaderVue>
     </header>
     <main class="item item-2">
-       <router-view />
+      <router-view />
     </main>
     <footer class="item item-3">
       <BaseFooterVue></BaseFooterVue>
@@ -20,6 +19,7 @@ import BaseFooterVue from "./components/BaseFooter.vue";
 
 <style>
 @import "./assets/base.css";
+@import "https://meyerweb.com/eric/tools/css/reset/reset.css";
 
 #app {
   top: 0;
@@ -30,13 +30,13 @@ import BaseFooterVue from "./components/BaseFooter.vue";
   margin: 0;
   font-size: 15px;
   box-sizing: border-box;
+  min-width: 560px;
 }
 
 .grid-container {
   display: grid;
   background-color: #2196f3;
-  height: 100%;
-  widows: 100%;
+  box-sizing: border-box;
 }
 
 .grid-container > .item-1,
@@ -45,15 +45,17 @@ import BaseFooterVue from "./components/BaseFooter.vue";
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
   font-size: 30px;
+  box-sizing: border-box;
 }
 
 .item-1 {
   height: 6.6vh;
-  min-width: 331px;
-  min-height: 60.38px;
+  min-height: 25px;
 }
 .item-2 {
   height: 91.4vh;
+  min-height: 185px;
+  width: 100%;
 }
 .item-3 {
   height: 2vh;

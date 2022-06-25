@@ -8,5 +8,6 @@ div {
   text-align: center;
   height: 100%;
   background-color: rgb(211, 211, 211);
+  box-sizing: border-box;
 }
 </style>

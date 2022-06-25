@@ -11,7 +11,6 @@
   --sans: Oxygen, sans-serif;
 }
 
-
 body {
   top: 0;
   right: 0;
@@ -21,4 +20,8 @@ body {
   margin: 0;
   font-size: 15px;
   box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
 }
