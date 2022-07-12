@@ -1,7 +1,7 @@
 <template>
   <div class="addword-container">
-    <div class="item-1">Kelimeler</div>
-    <div class="item-2">
+    <div class="word-item-1">Kelimeler</div>
+    <div class="word-item-2">
       <div class="word-btn">
         <button class="btn-add">Ekle</button>
       </div>
@@ -14,6 +14,70 @@
           <div class="word-list-item">
             <div class="word-item-firstLang">Yazi1</div>
             <div class="word-item-secondLang">Text1</div>
+            <div class="word-item-btns">
+              <button class="word-item-btn">Düzenle</button>
+              <button class="word-item-btn">Sil</button>
+            </div>
+          </div>
+          <div class="word-list-item">
+            <div class="word-item-firstLang">Yazi2</div>
+            <div class="word-item-secondLang">Text2</div>
+            <div class="word-item-btns">
+              <button class="word-item-btn">Düzenle</button>
+              <button class="word-item-btn">Sil</button>
+            </div>
+          </div>
+          <div class="word-list-item">
+            <div class="word-item-firstLang">Yazi2</div>
+            <div class="word-item-secondLang">Text2</div>
+            <div class="word-item-btns">
+              <button class="word-item-btn">Düzenle</button>
+              <button class="word-item-btn">Sil</button>
+            </div>
+          </div>
+          <div class="word-list-item">
+            <div class="word-item-firstLang">Yazi2</div>
+            <div class="word-item-secondLang">Text2</div>
+            <div class="word-item-btns">
+              <button class="word-item-btn">Düzenle</button>
+              <button class="word-item-btn">Sil</button>
+            </div>
+          </div>
+          <div class="word-list-item">
+            <div class="word-item-firstLang">Yazi2</div>
+            <div class="word-item-secondLang">Text2</div>
+            <div class="word-item-btns">
+              <button class="word-item-btn">Düzenle</button>
+              <button class="word-item-btn">Sil</button>
+            </div>
+          </div>
+          <div class="word-list-item">
+            <div class="word-item-firstLang">Yazi2</div>
+            <div class="word-item-secondLang">Text2</div>
+            <div class="word-item-btns">
+              <button class="word-item-btn">Düzenle</button>
+              <button class="word-item-btn">Sil</button>
+            </div>
+          </div>
+          <div class="word-list-item">
+            <div class="word-item-firstLang">Yazi2</div>
+            <div class="word-item-secondLang">Text2</div>
+            <div class="word-item-btns">
+              <button class="word-item-btn">Düzenle</button>
+              <button class="word-item-btn">Sil</button>
+            </div>
+          </div>
+          <div class="word-list-item">
+            <div class="word-item-firstLang">Yazi2</div>
+            <div class="word-item-secondLang">Text2</div>
+            <div class="word-item-btns">
+              <button class="word-item-btn">Düzenle</button>
+              <button class="word-item-btn">Sil</button>
+            </div>
+          </div>
+          <div class="word-list-item">
+            <div class="word-item-firstLang">Yazi2</div>
+            <div class="word-item-secondLang">Text2</div>
             <div class="word-item-btns">
               <button class="word-item-btn">Düzenle</button>
               <button class="word-item-btn">Sil</button>
@@ -42,23 +106,19 @@ export default {};
   height: inherit;
   min-height: inherit;
   align-items: center;
-  background-color: blueviolet;
   grid-template-columns: 1fr 1fr 8fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 4rem 1fr;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: overlay;
 }
-.addword-container > .item-1,
-.item-2 {
+.addword-container > .word-item-1,
+.word-item-2 {
   grid-column: 3;
   box-sizing: border-box;
 }
-.item-1 {
+.word-item-1 {
   padding-top: 1.5vh;
   min-height: 38px;
-}
-.item-2 {
-  overflow: hidden;
 }
 .btn-add {
   background-color: var(--dkblue);
@@ -80,15 +140,22 @@ export default {};
 }
 .word-header {
   display: flex;
+  align-items: center;
   padding-bottom: 0.8rem;
   justify-content: space-between;
+}
+.word-firstLangHeader,
+.work-secondLangHeader {
+  width: 4rem;
 }
 .word-firstLangHeader {
   padding-left: 10rem;
   padding-right: 14rem;
+  
 }
 .word-secondLangHeader {
   padding-right: 39rem;
+  width: 4rem;
 }
 .word-list-item {
   display: flex;
@@ -103,7 +170,7 @@ export default {};
 }
 .word-item-firstLang {
   padding-left: 10rem;
-  padding-right: 11rem;
+  padding-right: 1rem;
 }
 .word-item-secondLang {
   padding-right: 10rem;
