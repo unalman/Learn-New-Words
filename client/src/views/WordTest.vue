@@ -3,11 +3,7 @@
     <div class="wordTest-mainItem">
       <div class="wordTest-Question">Yazi</div>
       <div class="wordTest-Answer">
-        <input
-          type="text"
-          class="answerText"
-          placeholder="Cevabını Buraya Yaz"
-        />
+        <input type="text" class="answerText" placeholder="Cevabı Buraya Yaz" />
       </div>
       <div class="wordTest-btnList">
         <button class="wordTest-btnDontKnow">Bilmiyorum</button>

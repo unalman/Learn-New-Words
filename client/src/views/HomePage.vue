@@ -12,6 +12,11 @@
         <a class="content-wordbtn" href="/wordtest">Kelime Testi</a>
       </div>
     </div>
+    <div class="content-item3">
+      <div class="content-btnContainer">
+        <a class="content-wordbtn" href="/wordtestresult">Result Sayfasi</a>
+      </div>
+    </div>
   </div>
 </template>
 

@@ -83,14 +83,6 @@
               <button class="word-item-btn">Sil</button>
             </div>
           </div>
-          <div class="word-list-item">
-            <div class="word-item-firstLang">Yazi2</div>
-            <div class="word-item-secondLang">Text2</div>
-            <div class="word-item-btns">
-              <button class="word-item-btn">Düzenle</button>
-              <button class="word-item-btn">Sil</button>
-            </div>
-          </div>
           <div class="last-item-bottom"></div>
         </div>
       </div>
