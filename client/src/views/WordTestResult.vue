@@ -9,14 +9,17 @@
         <div class="wordTestResult-WordBox">
           <span>Text: </span>
           <span>Yazi</span>
+          <span> - 👎</span>
         </div>
         <div class="wordTestResult-WordBox">
           <span>Text2: </span>
           <span>Yazi2</span>
+          <span> - 👍</span>
         </div>
         <div class="wordTestResult-WordBox">
           <span>Text10: </span>
           <span>Yazi10</span>
+          <span> - 👍</span>
         </div>
       </div>
       <div class="wordTestResult-last-item-bottom"></div>
@@ -49,7 +52,7 @@ export default {};
   font-size: 2.4rem;
   padding-bottom: 2rem;
 }
-.wordTestResult-WordsListText{
+.wordTestResult-WordsListText {
   padding: 1rem;
 }
 .wordTestResult-WordList {
@@ -64,7 +67,7 @@ export default {};
   border-top: 1px solid #9eb5cc;
   padding: 0.5rem;
 }
-.wordTestResult-ComplatedBtn{
+.wordTestResult-ComplatedBtn {
   border: 1px;
   border-radius: 0.2rem;
   cursor: pointer;
