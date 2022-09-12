@@ -1,6 +1,6 @@
 <template>
   <div class="word-btn">
-    <button class="btn-add">Ekle</button>
+    <CustomBtn3 :btnName="buttonNames.add" />
   </div>
   <div class="word-container">
     <div class="word-header">
@@ -16,17 +16,28 @@
         <div class="word-item-firstLang">{{ item.MainLanguage }}</div>
         <div class="word-item-secondLang">{{ item.ForeignLanguage }}</div>
         <div class="word-item-btns">
-          <button class="word-item-btn">Düzenle</button>
-          <button class="word-item-btn">Sil</button>
+          <CustomBtn2 :btnName="buttonNames.edit" />
+          <CustomBtn2 :btnName="buttonNames.delete" />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
+import CustomBtn3 from "./buttons/CustomBtn3.vue";
+import CustomBtn2 from "./buttons/CustomBtn2.vue";
 export default {
+  component: {
+    CustomBtn3,
+    CustomBtn2,
+  },
   data() {
     return {
+      buttonNames: {
+        add: "Ekle",
+        edit: "Düzenle",
+        delete: "Sil",
+      },
       languageData: [
         {
           id: "1",
@@ -49,15 +60,6 @@ export default {
 };
 </script>
 <style scoped>
-.btn-add {
-  background-color: var(--dkblue);
-  color: white;
-  cursor: pointer;
-  font-size: 1.4rem;
-  border: 1px;
-  border-radius: 1rem;
-  height: 2.5rem;
-}
 .word-btn {
   padding-top: 1.5rem;
   padding-right: 4rem;
@@ -106,15 +108,5 @@ export default {
 .word-item-btns {
   padding-right: 5rem;
   padding-left: 0.7rem;
-}
-.word-item-btn {
-  background-color: var(--dkblue);
-  color: white;
-  cursor: pointer;
-  font-size: 1.4rem;
-  border: 1px;
-  border-radius: 1rem;
-  margin: 6px;
-  box-sizing: border-box;
 }
 </style>

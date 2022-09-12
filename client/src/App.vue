@@ -36,6 +36,7 @@ import BaseFooterVue from "./components/BaseFooter.vue";
 .grid-container {
   display: grid;
   background-color: #2196f3;
+  width: 100%;
   box-sizing: border-box;
 }
 

@@ -32,7 +32,13 @@ export default {
   box-sizing: border-box;
 }
 .word-item-1 {
+  grid-row: 1;
   padding-top: 1.5vh;
   min-height: 38px;
+}
+.word-item-2 {
+  grid-row: 2;
+  box-sizing: border-box;
+  height: inherit;
 }
 </style>

@@ -3,22 +3,48 @@
     <div class="content-item1">
       <div>Ezberlemek istediğin kelimeleri ekle!</div>
       <div class="content-btnContainer">
-        <a class="content-wordbtn" href="/addword">Kelime Ekle</a>
+        <CustomBtn1
+          :btnName="btnAddWord.name"
+          :href="btnAddWord.href"
+        ></CustomBtn1>
       </div>
     </div>
     <div class="content-item2">
       <div>Kendini test et!</div>
       <div class="content-btnContainer">
-        <a class="content-wordbtn" href="/wordtest">Kelime Testi</a>
+        <CustomBtn1 :btnName="btnTestWord.name" :href="btnTestWord.href">
+        </CustomBtn1>
       </div>
     </div>
     <div class="content-item3">
       <div class="content-btnContainer">
-        <a class="content-wordbtn" href="/wordtestresult">Result Sayfasi</a>
+        <CustomBtn1 :btnName="btnResultPage.name" :href="btnResultPage.href">
+        </CustomBtn1>
       </div>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+export default {
+  data() {
+    return {
+      btnAddWord: {
+        name: "Kelime Ekle",
+        href: "/addword",
+      },
+      btnTestWord: {
+        name: "Kelime Testi",
+        href: "/wordtest",
+      },
+      btnResultPage: {
+        name: "Result Sayfası",
+        href: "/wordtestresult",
+      },
+    };
+  },
+};
+</script>
 
 <style scoped>
 .content-container {
@@ -58,17 +84,5 @@
 .content-btnContainer {
   padding-top: 1rem;
   text-align: center;
-}
-.content-wordbtn {
-  color: white;
-  display: inline-block;
-  background-color: #e67e22;
-  font-size: 1.7rem;
-  border-radius: 0.7rem;
-  width: 10rem;
-}
-div .content-wordbtn:hover {
-  color: var(--hotmag);
-  text-decoration: none;
 }
 </style>
