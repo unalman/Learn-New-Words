@@ -24,8 +24,8 @@
   </div>
 </template>
 <script lang="ts">
-import CustomBtn3 from "./buttons/CustomBtn3.vue";
 import CustomBtn2 from "./buttons/CustomBtn2.vue";
+import CustomBtn3 from "./buttons/CustomBtn3.vue";
 export default {
   component: {
     CustomBtn3,
@@ -57,6 +57,7 @@ export default {
       ],
     };
   },
+  components: { CustomBtn2, CustomBtn3 },
 };
 </script>
 <style scoped>

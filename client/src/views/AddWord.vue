@@ -4,6 +4,7 @@ export default {
   component: {
     WordsTable,
   },
+  components: { WordsTable },
 };
 </script>
 <template>

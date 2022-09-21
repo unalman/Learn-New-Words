@@ -23,12 +23,24 @@
         </div>
       </div>
       <div class="wordTestResult-last-item-bottom"></div>
-      <div><button class="wordTestResult-ComplatedBtn">Tamamla</button></div>
+      <div>
+        <CustomBtn4 :btnName="btnComplate.name" />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-export default {};
+import CustomBtn4 from "../components/buttons/CustomBtn4.vue";
+export default {
+  components: { CustomBtn4 },
+  data() {
+    return {
+      btnComplate: {
+        name: "Tamamla",
+      },
+    };
+  },
+};
 </script>
 <style scoped>
 .wordTestResult-container {
@@ -66,13 +78,5 @@ export default {};
 .wordTestResult-last-item-bottom {
   border-top: 1px solid #9eb5cc;
   padding: 0.5rem;
-}
-.wordTestResult-ComplatedBtn {
-  border: 1px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  font-size: 1.4rem;
-  height: 3rem;
-  margin-top: 1rem;
 }
 </style>
