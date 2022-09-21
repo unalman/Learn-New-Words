@@ -6,14 +6,27 @@
         <input type="text" class="answerText" placeholder="Cevabı Buraya Yaz" />
       </div>
       <div class="wordTest-btnList">
-        <button class="wordTest-btnDontKnow">Bilmiyorum</button>
-        <button class="wordTest-btnNext">Kontrol Et</button>
+        <CustomBtn4 class="wordTest-btnDontKnow" :btnName="btnidk.name" />
+        <CustomBtn4 :btnName="btnCheck.name" />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-export default {};
+import CustomBtn4 from "../components/buttons/CustomBtn4.vue";
+export default {
+  components: { CustomBtn4 },
+  data() {
+    return {
+      btnCheck: {
+        name: "Kontrol et",
+      },
+      btnidk: {
+        name: "Bilmiyorum",
+      },
+    };
+  },
+};
 </script>
 <style scoped>
 .wordTest-container {
@@ -45,14 +58,6 @@ export default {};
 .wordTest-btnList {
   padding-top: 1rem;
   justify-content: space-between;
-}
-.wordTest-btnDontKnow,
-.wordTest-btnNext {
-  border: 1px;
-  border-radius: 0.2rem;
-  cursor: pointer;
-  font-size: 1.4rem;
-  height: 3rem;
 }
 .wordTest-btnDontKnow {
   margin-right: 12rem;

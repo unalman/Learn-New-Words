@@ -26,7 +26,9 @@
 </template>
 
 <script lang="ts">
+import CustomBtn1 from "../components/buttons/CustomBtn1.vue";
 export default {
+  components: { CustomBtn1 },
   data() {
     return {
       btnAddWord: {
