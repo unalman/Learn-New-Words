@@ -3,23 +3,18 @@
     <div class="content-item1">
       <div>Ezberlemek istediğin kelimeleri ekle!</div>
       <div class="content-btnContainer">
-        <CustomBtn1
-          :btnName="btnAddWord.name"
-          :href="btnAddWord.href"
-        ></CustomBtn1>
+        <CustomBtn1 :btnName="btnAddWord.name" :href="btnAddWord.href" />
       </div>
     </div>
     <div class="content-item2">
       <div>Kendini test et!</div>
       <div class="content-btnContainer">
-        <CustomBtn1 :btnName="btnTestWord.name" :href="btnTestWord.href">
-        </CustomBtn1>
+        <CustomBtn1 :btnName="btnTestWord.name" :href="btnTestWord.href" />
       </div>
     </div>
     <div class="content-item3">
       <div class="content-btnContainer">
-        <CustomBtn1 :btnName="btnResultPage.name" :href="btnResultPage.href">
-        </CustomBtn1>
+        <CustomBtn1 :btnName="btnResultPage.name" :href="btnResultPage.href" />
       </div>
     </div>
   </div>

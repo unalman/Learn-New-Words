@@ -1,21 +1,45 @@
-<script lang="ts">
-import WordsTable from "../components/WordsTable.vue";
-export default {
-  component: {
-    WordsTable,
-  },
-  components: { WordsTable },
-};
-</script>
 <template>
   <div class="addword-container">
     <div class="word-item-1">Kelimeler</div>
     <div class="word-item-2">
-      <WordsTable />
+      <WordsTable :languageData="languageData" />
     </div>
   </div>
 </template>
-
+<script lang="ts">
+import WordsTable from "../components/WordsTable.vue";
+import { ref } from "vue";
+const languageWords = ref([
+  {
+    id: "1",
+    MainLanguage: "Yazi1",
+    ForeignLanguage: "Text1",
+  },
+  {
+    id: "2",
+    MainLanguage: "Yazi2",
+    ForeignLanguage: "Text2",
+  },
+  {
+    id: "3",
+    MainLanguage: "Yazi3",
+    ForeignLanguage: "Text3",
+  },
+]);
+export default {
+  data() {
+    return {
+      languageData: languageWords,
+    };
+  },
+  components: { WordsTable },
+  methods: {
+    createNewWord(word) {
+      languageWords.value.unshift(word);
+    },
+  },
+};
+</script>
 <style scoped>
 .addword-container {
   display: grid;

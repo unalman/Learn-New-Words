@@ -1,6 +1,6 @@
 <template>
   <div class="word-btn">
-    <CustomBtn3 :btnName="buttonNames.add" />
+    <CustomBtn3 @click="test()" :btnName="buttonNames.add" />
   </div>
   <div class="word-container">
     <div class="word-header">
@@ -26,10 +26,13 @@
 <script lang="ts">
 import CustomBtn2 from "./buttons/CustomBtn2.vue";
 import CustomBtn3 from "./buttons/CustomBtn3.vue";
+// import { vAutoAnimate } from "@formkit/auto-animate";
+import { createElementVNode } from "vue";
 export default {
-  component: {
-    CustomBtn3,
-    CustomBtn2,
+  props: {
+    languageData: {
+      type: Array,
+    },
   },
   data() {
     return {
@@ -38,26 +41,14 @@ export default {
         edit: "Düzenle",
         delete: "Sil",
       },
-      languageData: [
-        {
-          id: "1",
-          MainLanguage: "Yazi1",
-          ForeignLanguage: "Text1",
-        },
-        {
-          id: "2",
-          MainLanguage: "Yazi2",
-          ForeignLanguage: "Text2",
-        },
-        {
-          id: "3",
-          MainLanguage: "Yazi3",
-          ForeignLanguage: "Text3",
-        },
-      ],
     };
   },
   components: { CustomBtn2, CustomBtn3 },
+  methods: {
+    test() {
+      createElementVNode("div", {}, "awd", 2);
+    },
+  },
 };
 </script>
 <style scoped>

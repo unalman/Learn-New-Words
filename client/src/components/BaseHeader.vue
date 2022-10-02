@@ -1,12 +1,32 @@
 <template>
   <nav>
     <ul>
-      <li><a href="/">Anasayfa</a></li>
-      <li><a href="/contact">İletişim</a></li>
+      <li><CustomBtn5 :btnName="homePage.name" :href="homePage.href" /></li>
+      <li>
+        <CustomBtn5 :btnName="contactPage.name" :href="contactPage.href" />
+      </li>
     </ul>
   </nav>
 </template>
-
+<script lang="ts">
+import CustomBtn5 from "./buttons/CustomBtn5.vue";
+export default {
+  component: { CustomBtn5 },
+  data() {
+    return {
+      homePage: {
+        name: "Anasayfa",
+        href: "/",
+      },
+      contactPage: {
+        name: "İletişim",
+        href: "/contact",
+      },
+    };
+  },
+  components: { CustomBtn5 },
+};
+</script>
 <style scoped>
 nav {
   height: 100%;
@@ -24,14 +44,6 @@ ul li {
   list-style-type: none;
   align-self: center;
   margin-right: auto;
-}
-nav a {
-  text-decoration: none;
-  color: var(--white);
-}
-nav a:hover {
-  color: var(--hotmag);
-  text-decoration: none;
 }
 nav ul li:first-child {
   margin-left: 1rem;
