@@ -1,6 +1,6 @@
 <template>
   <div class="word-btn">
-    <CustomBtn3 @click="test()" :btnName="buttonNames.add" />
+    <CustomBtn3 v-on:click="addItem()" :btnName="buttonNames.add" />
   </div>
   <div class="word-container">
     <div class="word-header">
@@ -13,11 +13,43 @@
         v-for="item in languageData"
         v-bind:key="item.id"
       >
-        <div class="word-item-firstLang">{{ item.MainLanguage }}</div>
-        <div class="word-item-secondLang">{{ item.ForeignLanguage }}</div>
+        <div class="word-item-firstLang" v-if="!isEdit">
+          {{ item.MainLanguage }}
+        </div>
+        <div class="word-item-secondLang" v-if="!isEdit">
+          {{ item.ForeignLanguage }}
+        </div>
+        <div class="word-item-firstLang" v-if="isEdit">
+          <input type="text" v-model="item.MainLanguage" />
+        </div>
+        <div class="word-item-secondLang" v-if="isEdit">
+          <input type="text" v-model="item.ForeignLanguage" />
+        </div>
         <div class="word-item-btns">
-          <CustomBtn2 :btnName="buttonNames.edit" />
-          <CustomBtn2 :btnName="buttonNames.delete" />
+          <CustomBtn2
+            class="edit"
+            v-on:click="editWord()"
+            v-if="!isEdit"
+            :btnName="buttonNames.edit"
+          />
+          <CustomBtn2
+            class="delete"
+            v-on:click="deleteWord()"
+            v-if="!isEdit"
+            :btnName="buttonNames.delete"
+          />
+          <CustomBtn2
+            class="edit"
+            v-on:click="updateWord()"
+            v-if="isEdit"
+            :btnName="buttonNames.ok"
+          />
+          <CustomBtn2
+            class="delete"
+            v-on:click="cancelWord()"
+            v-if="isEdit"
+            :btnName="buttonNames.cancel"
+          />
         </div>
       </div>
     </div>
@@ -26,30 +58,62 @@
 <script lang="ts">
 import CustomBtn2 from "./buttons/CustomBtn2.vue";
 import CustomBtn3 from "./buttons/CustomBtn3.vue";
+import type { IWordTable, ILanguageWord } from "typings/interface/IWordTable";
 // import { vAutoAnimate } from "@formkit/auto-animate";
-import { createElementVNode } from "vue";
+// import { createElementVNode, h } from "vue";
+
 export default {
   props: {
     languageData: {
-      type: Array,
+      type: Array as () => ILanguageWord[],
     },
   },
-  data() {
+  data(): IWordTable {
     return {
       buttonNames: {
         add: "Ekle",
         edit: "Düzenle",
         delete: "Sil",
+        ok: "Ok",
+        cancel: "İptal",
       },
+      isEdit: false,
     };
   },
   components: { CustomBtn2, CustomBtn3 },
   methods: {
-    test() {
-      createElementVNode("div", {}, "awd", 2);
+    addItem(this: any) {
+      (this.languageData as ILanguageWord[]).unshift(
+        createNewLangWord(this.languageData)
+      );
+      this.isEdit = true;
+    },
+    editWord(this: any) {
+      this.isEdit = true;
+    },
+    deleteWord(this: any) {
+      //remove event
+    },
+    updateWord(this: any) {
+      this.isEdit = false;
+    },
+    cancelWord(this: any) {
+      this.isEdit = false;
     },
   },
 };
+
+function createNewLangWord(languageData: ILanguageWord[]): ILanguageWord {
+  let lastId = parseInt(languageData[languageData.length - 1].id);
+  let obj: ILanguageWord;
+  obj = {
+    id: (lastId + 1).toString(),
+    MainLanguage: "",
+    ForeignLanguage: "",
+  };
+
+  return obj;
+}
 </script>
 <style scoped>
 .word-btn {
