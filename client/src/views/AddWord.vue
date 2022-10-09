@@ -9,6 +9,11 @@
 <script lang="ts">
 import WordsTable from "../components/WordsTable.vue";
 import { ref } from "vue";
+interface LanguageWords {
+  id: string;
+  MainLanguage: string;
+  ForeignLanguage: string;
+}
 const languageWords = ref([
   {
     id: "1",
@@ -33,11 +38,11 @@ export default {
     };
   },
   components: { WordsTable },
-  methods: {
-    createNewWord(word) {
-      languageWords.value.unshift(word);
-    },
-  },
+  // methods: {
+  //   createNewWord(word) {
+  //     languageWords.value.unshift(word);
+  //   },
+  // },
 };
 </script>
 <style scoped>
