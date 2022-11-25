@@ -1,5 +1,6 @@
 interface IWordTable {
   isEdit: boolean;
+  selectedId: string;
   buttonNames: {
     add: string;
     edit: string;
