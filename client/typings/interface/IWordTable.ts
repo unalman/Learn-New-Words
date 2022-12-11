@@ -1,4 +1,5 @@
 interface IWordTable {
+  wordsList: ILanguageWord[];
   isEdit: boolean;
   selectedId: string;
   buttonNames: {
@@ -8,6 +9,17 @@ interface IWordTable {
     ok: string;
     cancel: string;
   };
+  errors: string[];
+  validation: {
+    mainLanguage: boolean;
+    mainLanguageText: string;
+    foreignLanguage: boolean;
+    foreignLanguageText: string;
+  };
+  errorClasses: {
+    errorBorder: "errorBorder";
+  };
+  previousValues: ILanguageWord;
 }
 
 interface ILanguageWord {

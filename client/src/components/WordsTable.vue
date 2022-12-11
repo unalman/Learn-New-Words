@@ -1,6 +1,13 @@
 <template>
-  <div class="word-btn">
-    <CustomBtn3 @click="addItem()" :btnName="buttonNames.add" />
+  <div class="word-top">
+    <ul class="word-error">
+      <li class="word-error-item" v-for="item in errors" :key="item">
+        {{ item }}
+      </li>
+    </ul>
+    <div class="word-btn">
+      <CustomBtn3 @click="addItem()" :btnName="buttonNames.add" />
+    </div>
   </div>
   <div class="word-container">
     <div class="word-header">
@@ -10,7 +17,7 @@
     <ul class="word-list" v-auto-animate>
       <li
         class="word-list-item"
-        v-for="item in getLanguageData()"
+        v-for="(item, index) in getLanguageData()"
         v-bind:key="item.id"
       >
         <div
@@ -26,24 +33,37 @@
           {{ item.ForeignLanguage }}
         </div>
         <div class="word-item-firstLang" v-if="isEdit && selectedId == item.id">
-          <input class="textInput" type="text" v-model="item.MainLanguage" />
+          <input
+            class="textInput"
+            :class="validation.mainLanguage ? errorClasses.errorBorder : ''"
+            id="mainLangEdit"
+            type="text"
+            v-model="item.MainLanguage"
+          />
         </div>
         <div
           class="word-item-secondLang"
           v-if="isEdit && selectedId == item.id"
         >
-          <input class="textInput" type="text" v-model="item.ForeignLanguage" />
+          <input
+            class="textInput"
+            :class="validation.foreignLanguage ? errorClasses.errorBorder : ''"
+            id="foreignLangEdit"
+            type="text"
+            v-model="item.ForeignLanguage"
+          />
         </div>
         <div class="word-item-btns">
           <CustomBtn2
             class="edit"
+            name="submit"
             v-on:click="editMode(item.id)"
             v-if="!isEdit || selectedId != item.id"
             :btnName="buttonNames.edit"
           />
           <CustomBtn2
             class="delete"
-            v-on:click="editMode(item.id)"
+            v-on:click="deleteWord(item.id, index)"
             v-if="!isEdit || selectedId != item.id"
             :btnName="buttonNames.delete"
           />
@@ -62,6 +82,7 @@
         </div>
       </li>
     </ul>
+    <div class="last-item-bottom"></div>
   </div>
 </template>
 <script lang="ts">
@@ -76,6 +97,7 @@ export default {
   },
   data(): IWordTable {
     return {
+      wordsList: this.languageData as ILanguageWord[],
       buttonNames: {
         add: "Ekle",
         edit: "Düzenle",
@@ -83,40 +105,100 @@ export default {
         ok: "Ok",
         cancel: "İptal",
       },
+      validation: {
+        mainLanguage: false,
+        mainLanguageText: "Ana Dil'e değer girilmedi",
+        foreignLanguage: false,
+        foreignLanguageText: "Yabancı Dil'e değer girilmedi",
+      },
+      errorClasses: {
+        errorBorder: "errorBorder",
+      },
+      errors: [],
       isEdit: false,
       selectedId: "",
+      previousValues: {
+        id: "",
+        MainLanguage: "",
+        ForeignLanguage: "",
+      },
     };
   },
   components: { CustomBtn2, CustomBtn3 },
   methods: {
-    addItem(this: any) {
-      var lang = createNewLangWord(this.languageData);
-      (this.languageData as ILanguageWord[]).unshift(lang);
-      this.selectedId = lang.id;
-      this.isEdit = true;
+    addItem() {
+      if (this.isEdit) return;
+      var lang = createNewLangWord(this.wordsList as ILanguageWord[]);
+      (this.wordsList as ILanguageWord[]).unshift(lang);
+      this.editMode(lang.id);
     },
-    editWord(this: any) {
-      this.isEdit = true;
+    deleteWord(id: string, index: number) {
+      (this.wordsList as ILanguageWord[]).splice(index, 1);
     },
-    deleteWord(this: any) {
-      //remove event
+    updateWord() {
+      this.isEdit = !this.isValid();
     },
-    updateWord(this: any) {
+    isValid(): boolean {
+      var isSuccess = true;
+      const mainLanguageInput = document.getElementById(
+        "mainLangEdit"
+      ) as HTMLInputElement | null;
+      const foreignLanguageInput = document.getElementById(
+        "foreignLangEdit"
+      ) as HTMLInputElement | null;
+      this.errors = [];
+      if (!this.textValidation(mainLanguageInput?.value as string)) {
+        this.errors.push(this.validation.mainLanguageText);
+        this.validation.mainLanguage = true;
+        isSuccess = false;
+      }
+      if (!this.textValidation(foreignLanguageInput?.value as string)) {
+        this.errors.push(this.validation.foreignLanguageText);
+        this.validation.foreignLanguage = true;
+        isSuccess = false;
+      }
+      return isSuccess;
+    },
+    textValidation(text: string): boolean {
+      var trimmedValue = text?.replace(/\s/g, "");
+      if (text === null || trimmedValue == "") {
+        return false;
+      }
+      return true;
+    },
+    cancelWord() {
+      this.updatePreviousLanguage();
       this.isEdit = false;
     },
-    cancelWord(this: any) {
-      this.isEdit = false;
+    updatePreviousLanguage() {
+      console.log(this.previousValues);
+      var s = this.wordsList?.map((obj: ILanguageWord) => {
+        if (obj.id == this.selectedId) {
+          return (obj = this.previousValues);
+        }
+        return obj;
+      });
+      console.log(s);
+      this.wordsList = s;
     },
     editMode(id: string) {
-      console.log(id);
       this.selectedId = id;
+      this.previousValues = Object.assign(
+        {},
+        this.findLanguagebyId(id) as ILanguageWord
+      );
       this.isEdit = true;
     },
-    getLanguageData(this: any): ILanguageWord[] {
-      var data = this.languageData as ILanguageWord[];
+    findLanguagebyId(id: string) {
+      return this.wordsList?.find((x: ILanguageWord) => x.id == id);
+    },
+    getLanguageData(): ILanguageWord[] {
+      var data = this.wordsList as ILanguageWord[];
       return data.sort(langDataDescendingSort);
     },
   },
+  computed: {},
+  watch: {},
 };
 
 function createNewLangWord(languageData: ILanguageWord[]): ILanguageWord {
@@ -185,10 +267,21 @@ function langDataDescendingSort(a: ILanguageWord, b: ILanguageWord) {
   padding-right: 5rem;
   padding-left: 0.7rem;
 }
-
 .textInput {
   border-radius: 0.3rem;
   box-sizing: border-box;
   font-size: 1.3rem;
+}
+.word-top {
+  display: flex;
+  font-size: 1rem;
+  color: red;
+  justify-content: space-between;
+}
+.word-error {
+  width: 80%;
+}
+.errorBorder {
+  border-color: red;
 }
 </style>
