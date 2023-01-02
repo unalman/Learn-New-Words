@@ -34,11 +34,6 @@ export default {
     };
   },
   components: { WordsTable },
-  // methods: {
-  //   createNewWord(word) {
-  //     languageWords.value.unshift(word);
-  //   },
-  // },
 };
 </script>
 <style scoped>
