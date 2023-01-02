@@ -2,6 +2,7 @@ interface IWordTable {
   wordsList: ILanguageWord[];
   isEdit: boolean;
   selectedId: string;
+  newItem: boolean;
   buttonNames: {
     add: string;
     edit: string;

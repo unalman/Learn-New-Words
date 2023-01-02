@@ -16,4 +16,8 @@ export default {
   font-size: 1.4rem;
   height: 3rem;
 }
+.custombtn4:active {
+  box-shadow: 0 3px rgb(197, 194, 194);
+  transform: translateY(1px);
+}
 </style>

@@ -63,7 +63,7 @@
           />
           <CustomBtn2
             class="delete"
-            v-on:click="deleteWord(item.id, index)"
+            v-on:click="deleteWord(index)"
             v-if="!isEdit || selectedId != item.id"
             :btnName="buttonNames.delete"
           />
@@ -75,7 +75,7 @@
           />
           <CustomBtn2
             class="delete"
-            v-on:click="cancelWord()"
+            v-on:click="cancelWord(index)"
             v-if="isEdit && selectedId == item.id"
             :btnName="buttonNames.cancel"
           />
@@ -117,6 +117,7 @@ export default {
       errors: [],
       isEdit: false,
       selectedId: "",
+      newItem: false,
       previousValues: {
         id: "",
         MainLanguage: "",
@@ -128,15 +129,32 @@ export default {
   methods: {
     addItem() {
       if (this.isEdit) return;
+      this.newItem = true;
       var lang = createNewLangWord(this.wordsList as ILanguageWord[]);
       (this.wordsList as ILanguageWord[]).unshift(lang);
       this.editMode(lang.id);
     },
-    deleteWord(id: string, index: number) {
+    editMode(id: string) {
+      if (this.isEdit) return;
+      this.selectedId = id;
+      this.previousValues = Object.assign(
+        {},
+        this.findLanguagebyId(id) as ILanguageWord
+      );
+      this.isEdit = true;
+    },
+    deleteWord(index: number) {
       (this.wordsList as ILanguageWord[]).splice(index, 1);
     },
     updateWord() {
       this.isEdit = !this.isValid();
+      this.newItem = false;
+    },
+    cancelWord(index: number) {
+      this.updatePreviousLanguage();
+      (this.wordsList as ILanguageWord[]).splice(index, 1);
+      this.isEdit = false;
+      this.newItem = false;
     },
     isValid(): boolean {
       var isSuccess = true;
@@ -166,49 +184,33 @@ export default {
       }
       return true;
     },
-    cancelWord() {
-      this.updatePreviousLanguage();
-      this.isEdit = false;
-    },
     updatePreviousLanguage() {
-      console.log(this.previousValues);
-      var s = this.wordsList?.map((obj: ILanguageWord) => {
+      var words = this.wordsList?.map((obj: ILanguageWord) => {
         if (obj.id == this.selectedId) {
           return (obj = this.previousValues);
         }
         return obj;
       });
-      console.log(s);
-      this.wordsList = s;
-    },
-    editMode(id: string) {
-      this.selectedId = id;
-      this.previousValues = Object.assign(
-        {},
-        this.findLanguagebyId(id) as ILanguageWord
-      );
-      this.isEdit = true;
+      this.wordsList = words;
     },
     findLanguagebyId(id: string) {
       return this.wordsList?.find((x: ILanguageWord) => x.id == id);
     },
     getLanguageData(): ILanguageWord[] {
-      var data = this.wordsList as ILanguageWord[];
-      return data.sort(langDataDescendingSort);
+      var words = this.wordsList as ILanguageWord[];
+      return words.sort(langDataDescendingSort);
     },
   },
-  computed: {},
-  watch: {},
 };
 
 function createNewLangWord(languageData: ILanguageWord[]): ILanguageWord {
-  let obj: ILanguageWord;
-  obj = {
+  let newObj: ILanguageWord;
+  newObj = {
     id: getLastId(languageData),
     MainLanguage: "",
     ForeignLanguage: "",
   };
-  return obj;
+  return newObj;
 }
 function getLastId(languageData: ILanguageWord[]) {
   return (Math.max(...languageData.map((x) => parseInt(x.id))) + 1).toString();
