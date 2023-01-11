@@ -48,8 +48,7 @@ export default {
   display: grid;
   padding: 2vh;
   grid-gap: 10px;
-  box-sizing: border-box;
-  height: inherit;
+  height: 100%;
   min-height: inherit;
   align-items: center;
   justify-content: space-around;
@@ -77,6 +76,14 @@ export default {
   grid-row-start: 2;
   grid-column-start: 2;
   min-height: 101px;
+}
+
+@media screen and (max-width: 800px) {
+  .content-item2 {
+  grid-row-start: 2;
+  grid-column-start: 1;
+  min-height: 101px;
+}
 }
 .content-btnContainer {
   padding-top: 1rem;

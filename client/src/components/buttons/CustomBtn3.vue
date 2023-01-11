@@ -18,6 +18,7 @@ export default {
   border-radius: 1rem;
   height: 2.5rem;
   box-shadow: 0 2px 0 0 #000;
+  padding: 5px;
 }
 .customBtn3:active {
   box-shadow: 0 2px #000;
