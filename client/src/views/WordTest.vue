@@ -31,7 +31,7 @@ export default {
 <style scoped>
 .wordTest-container {
   display: grid;
-  height: inherit;
+  height: 100%;
   min-height: inherit;
   grid-template-columns: 1fr 1fr 8fr 1fr 1fr;
   box-sizing: border-box;

@@ -21,45 +21,57 @@ import BaseFooterVue from "./components/BaseFooter.vue";
 @import "./assets/base.css";
 @import "https://meyerweb.com/eric/tools/css/reset/reset.css";
 
-#app {
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* body,
+header {
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   padding: 0;
   margin: 0;
-  font-size: 15px;
-  box-sizing: border-box;
-  min-width: 560px;
-}
+} */
 
 .grid-container {
   display: grid;
-  background-color: #2196f3;
-  width: 100%;
-  box-sizing: border-box;
+  background-color: black;
+  grid-template-rows: 6.6vh calc(100% - 6.6vh - 2.8vh) 2.8vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 .grid-container > .item-1,
 .item-2,
 .item-3 {
-  background-color: rgba(255, 255, 255, 0.8);
+  grid-column: 1;
+  background-color: #d8ecfc;
   text-align: center;
   font-size: 30px;
   box-sizing: border-box;
 }
 
 .item-1 {
-  height: 6.6vh;
-  min-height: 25px;
+  grid-column: 1;
+  grid-row: 1;
+  /* height: 6.6vh;
+  min-height: 25px; */
 }
 .item-2 {
-  height: 91.4vh;
+  grid-column: 1;
+  grid-row: 2;
+  /* height: 91.4vh;
   min-height: 185px;
-  width: 100%;
+  width: 100%; */
 }
 .item-3 {
-  height: 2vh;
-  min-height: 17px;
+  grid-column: 1;
+  grid-row: 3;
+  /* height: 2vh;
+  min-height: 17px; */
 }
 </style>

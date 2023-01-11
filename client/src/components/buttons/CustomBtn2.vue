@@ -19,6 +19,7 @@ export default {
   border-radius: 1rem;
   margin: 6px;
   box-sizing: border-box;
+  padding: 5px;
 }
 .customBtn2:hover {
   background-color: rgb(21, 72, 168);
