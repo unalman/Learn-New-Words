@@ -12,13 +12,13 @@ export default {
 .customBtn1 {
   color: white;
   display: inline-block;
-  background-color: #e67e22;
-  font-size: 1.6rem;
-  border-radius: 0.6rem;
-  width: 10rem;
+  background-color: rgb(106 146 205);
+  font-size: 1.5rem;
+  border-radius: 0.3rem;
+  padding: 3px;
 }
 div .customBtn1:hover {
-  color: var(--hotmag);
+  background-color: rgb(38 105 205);
   text-decoration: none;
 }
 </style>

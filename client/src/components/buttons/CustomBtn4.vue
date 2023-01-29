@@ -10,14 +10,20 @@ export default {
 </script>
 <style scoped>
 .custombtn4 {
+  background-color: #5fa7db;
+  color: white;
   border: 1px;
-  border-radius: 0.2rem;
+  border-radius: 0.28rem;
   cursor: pointer;
   font-size: 1.4rem;
-  height: 3rem;
+  padding: 7px;
+}
+.custombtn4:hover {
+  background-color: rgb(70 119 211);
 }
 .custombtn4:active {
-  box-shadow: 0 3px rgb(197, 194, 194);
+  background-color: rgb(70 119 211);
+  box-shadow: 0 1px rgb(70 119 211);
   transform: translateY(1px);
 }
 </style>

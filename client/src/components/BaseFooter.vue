@@ -7,9 +7,8 @@ div {
   font-size: 1.1rem;
   text-align: center;
   height: 100%;
-  background-color: rgb(211, 211, 211);
+  background-color: var(--lightBlue);
   padding-top: 5px;
-  box-sizing: border-box;
   overflow: hidden;
 }
 </style>

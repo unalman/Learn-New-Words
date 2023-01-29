@@ -31,17 +31,18 @@ export default {
 nav {
   height: 100%;
   width: 100%;
-  font-size: 1.2rem;
-  background-color: rgb(230, 182, 124);
+  font-size: 20px;
+  font-weight: bold;
+  background-color: var(--lightBlue);
   display: flex;
 }
 nav ul {
   width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.7rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem;
 }
 ul li {
   list-style-type: none;

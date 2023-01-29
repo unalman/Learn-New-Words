@@ -57,16 +57,16 @@ export default {
 .content-container > .content-item1,
 .content-item2 {
   text-align: center;
-  font-size: 3.5vh;
+  font-size: 1.7rem;
   box-sizing: border-box;
   width: 40vh;
   border: solid 0.4px;
-  border-color: gray;
+  border-color: var(--lightGrey);
   min-width: 180px;
   height: 14vh;
   border-radius: 1rem;
   padding-top: 1rem;
-  background-color: antiquewhite;
+  background-color: var(--lightBlue);
 }
 .content-item1 {
   grid-template-columns: 100px auto;
@@ -80,10 +80,10 @@ export default {
 
 @media screen and (max-width: 800px) {
   .content-item2 {
-  grid-row-start: 2;
-  grid-column-start: 1;
-  min-height: 101px;
-}
+    grid-row-start: 2;
+    grid-column-start: 1;
+    min-height: 101px;
+  }
 }
 .content-btnContainer {
   padding-top: 1rem;

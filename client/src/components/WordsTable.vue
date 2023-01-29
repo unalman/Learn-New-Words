@@ -1,10 +1,8 @@
 <template>
   <div class="word-top">
-    <ul class="word-error">
-      <li class="word-error-item" v-for="item in errors" :key="item">
-        {{ item }}
-      </li>
-    </ul>
+    <div class="word-errorDiv">
+      <ErrorBlock v-if="errors.length > 0" :errors="errors" />
+    </div>
     <div class="word-btn">
       <CustomBtn3 @click="addItem()" :btnName="buttonNames.add" />
     </div>
@@ -13,6 +11,7 @@
     <div class="word-header">
       <div class="word-firstLangHeader">Ana Dil</div>
       <div class="word-secondLangHeader">Yabancı Dil</div>
+      <div style="width: 230.81px"></div>
     </div>
     <ul class="word-list" v-auto-animate>
       <li
@@ -82,12 +81,12 @@
         </div>
       </li>
     </ul>
-    <div class="last-item-bottom"></div>
   </div>
 </template>
 <script lang="ts">
 import CustomBtn2 from "./buttons/CustomBtn2.vue";
 import CustomBtn3 from "./buttons/CustomBtn3.vue";
+import ErrorBlock from "./ErrorBlock.vue";
 import type { IWordTable, ILanguageWord } from "typings/interface/IWordTable";
 export default {
   props: {
@@ -102,7 +101,7 @@ export default {
         add: "Ekle",
         edit: "Düzenle",
         delete: "Sil",
-        ok: "Ok",
+        ok: "Tamam",
         cancel: "İptal",
       },
       validation: {
@@ -125,7 +124,7 @@ export default {
       },
     };
   },
-  components: { CustomBtn2, CustomBtn3 },
+  components: { CustomBtn2, CustomBtn3, ErrorBlock },
   methods: {
     addItem() {
       if (this.isEdit) return;
@@ -155,6 +154,9 @@ export default {
       (this.wordsList as ILanguageWord[]).splice(index, 1);
       this.isEdit = false;
       this.newItem = false;
+      this.errors = [];
+      this.validation.mainLanguage = false;
+      this.validation.foreignLanguage = false;
     },
     isValid(): boolean {
       var isSuccess = true;
@@ -227,63 +229,51 @@ function langDataDescendingSort(a: ILanguageWord, b: ILanguageWord) {
 }
 .word-container {
   margin-top: 1rem;
-  font-size: 1.4rem;
+  box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 }
 .word-header {
   display: flex;
   align-items: center;
+  padding-top: 0.8rem;
   padding-bottom: 0.8rem;
+  padding-left: 1.5rem;
   justify-content: space-between;
-}
-.word-firstLangHeader,
-.work-secondLangHeader {
-  width: 4rem;
-}
-.word-firstLangHeader {
-  padding-left: 10rem;
-  padding-right: 14rem;
-}
-.word-secondLangHeader {
-  padding-right: 39rem;
-  width: 4rem;
+  font-size: 20px;
+  font-weight: 600;
+  color: #4a4a4a;
+  background-color: var(--lightBlue);
 }
 .word-list-item {
   display: flex;
+  font-size: 20px;
+  color: #4a4a4a;
   align-items: center;
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
-  border-top: 1px solid #9eb5cc;
+  padding-left: 1.5rem;
+  border-top: 1px solid var(--lightGreyTableBorder);
   justify-content: space-between;
-}
-.last-item-bottom {
-  border-top: 1px solid #9eb5cc;
-}
-.word-item-firstLang {
-  padding-left: 10rem;
-  padding-right: 1rem;
-}
-.word-item-secondLang {
-  padding-right: 10rem;
 }
 .word-item-btns {
   padding-right: 5rem;
   padding-left: 0.7rem;
 }
 .textInput {
+  border: 1px solid var(--lightGreyTableBorder);
+  color: #4a4a4a;
   border-radius: 0.3rem;
-  box-sizing: border-box;
-  font-size: 1.3rem;
+  font-size: 20px;
+  outline: none;
+}
+.textInput:focus {
+  border: 0.13rem solid var(--InputFocusGrey);
 }
 .word-top {
   display: flex;
-  font-size: 1rem;
-  color: red;
   justify-content: space-between;
 }
-.word-error {
-  width: 80%;
-}
 .errorBorder {
-  border-color: red;
+  border-color: #ff6868;
+}
+.word-errorDiv {
+  max-width: 80%;
 }
 </style>
