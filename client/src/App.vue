@@ -27,16 +27,6 @@ import BaseFooterVue from "./components/BaseFooter.vue";
   margin: 0;
 }
 
-/* body,
-header {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 0;
-  margin: 0;
-} */
-
 .grid-container {
   display: grid;
   background-color: black;
@@ -49,7 +39,7 @@ header {
 .item-2,
 .item-3 {
   grid-column: 1;
-  background-color: #d8ecfc;
+  background-color: var(--mainColor);
   text-align: center;
   font-size: 30px;
   box-sizing: border-box;
@@ -58,20 +48,13 @@ header {
 .item-1 {
   grid-column: 1;
   grid-row: 1;
-  /* height: 6.6vh;
-  min-height: 25px; */
 }
 .item-2 {
   grid-column: 1;
   grid-row: 2;
-  /* height: 91.4vh;
-  min-height: 185px;
-  width: 100%; */
 }
 .item-3 {
   grid-column: 1;
   grid-row: 3;
-  /* height: 2vh;
-  min-height: 17px; */
 }
 </style>

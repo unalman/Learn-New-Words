@@ -11,22 +11,22 @@ export default {
 </script>
 <style scoped>
 .customBtn2 {
-  background-color: var(--dkblue);
+  background-color: #5fa7db;
   color: white;
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 20px;
   border: 1px;
-  border-radius: 1rem;
+  border-radius: 0.28rem;
   margin: 6px;
   box-sizing: border-box;
   padding: 5px;
 }
 .customBtn2:hover {
-  background-color: rgb(21, 72, 168);
+  background-color: rgb(70 119 211);
 }
 .customBtn2:active {
-  background-color: var(--dkblue);
-  box-shadow: 0 1px #000;
+  background-color: rgb(70 119 211);
+  box-shadow: 0 1px rgb(70 119 211);
   transform: translateY(1px);
 }
 </style>

@@ -11,10 +11,10 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
-  color: var(--white);
+  color: rgb(38 105 205);
 }
-a:hover {
+/* a:hover {
   color: var(--hotmag);
   text-decoration: none;
-}
+} */
 </style>
