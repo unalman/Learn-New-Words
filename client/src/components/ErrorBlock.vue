@@ -16,13 +16,15 @@
   </div>
 </template>
 <script lang="ts">
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   props: { errors: Array as () => string[] },
-};
+});
 </script>
 <style>
 .errorBlock-container {
-  background-color: #fff4f4 ;
+  background-color: #fff4f4;
   border: 1px solid #ffb9b9;
   border-radius: 4px;
   text-align: center;

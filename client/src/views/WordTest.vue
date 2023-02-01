@@ -33,7 +33,7 @@ export default {
   display: grid;
   height: 100%;
   min-height: inherit;
-  grid-template-columns: 1fr 1fr 8fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
   overflow: overlay;
 }
 .wordTest-mainItem {
@@ -43,6 +43,7 @@ export default {
 .wordTest-Question {
   font-size: 3rem;
   margin-bottom: 4rem;
+  color: darkslategray;
 }
 .wordTest-Answer {
   margin-bottom: 1rem;

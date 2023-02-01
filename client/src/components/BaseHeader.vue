@@ -10,7 +10,9 @@
 </template>
 <script lang="ts">
 import CustomBtn5 from "./buttons/CustomBtn5.vue";
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   component: { CustomBtn5 },
   data() {
     return {
@@ -25,7 +27,7 @@ export default {
     };
   },
   components: { CustomBtn5 },
-};
+});
 </script>
 <style scoped>
 nav {
