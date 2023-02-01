@@ -88,7 +88,8 @@ import CustomBtn2 from "./buttons/CustomBtn2.vue";
 import CustomBtn3 from "./buttons/CustomBtn3.vue";
 import ErrorBlock from "./ErrorBlock.vue";
 import type { IWordTable, ILanguageWord } from "typings/interface/IWordTable";
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
   props: {
     languageData: {
       type: Array as () => ILanguageWord[],
@@ -203,7 +204,7 @@ export default {
       return words.sort(langDataDescendingSort);
     },
   },
-};
+});
 
 function createNewLangWord(languageData: ILanguageWord[]): ILanguageWord {
   let newObj: ILanguageWord;

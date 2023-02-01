@@ -52,6 +52,7 @@ export default {
   min-height: inherit;
   align-items: center;
   justify-content: space-around;
+  color: darkslategray;
 }
 
 .content-container > .content-item1,
