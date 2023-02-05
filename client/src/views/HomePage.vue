@@ -35,7 +35,7 @@ export default {
         href: "/wordtest",
       },
       btnResultPage: {
-        name: "Result Sayfası",
+        name: "Sonuç Sayfası",
         href: "/wordtestresult",
       },
     };
