@@ -21,7 +21,7 @@ import BaseFooterVue from "./components/BaseFooter.vue";
 @import "./assets/base.css";
 @import "https://meyerweb.com/eric/tools/css/reset/reset.css";
 
-*{
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;

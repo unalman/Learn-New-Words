@@ -8,33 +8,19 @@
 </template>
 <script lang="ts">
 import WordsTable from "../components/WordsTable.vue";
-import { ref } from "vue";
+import { defineComponent } from "vue";
+import { useLangueageWordStore } from "@/stores/LanguageWord";
 
-const languageWords = ref([
-  {
-    id: "1",
-    MainLanguage: "Yazi1",
-    ForeignLanguage: "Text1",
-  },
-  {
-    id: "2",
-    MainLanguage: "Yazi2",
-    ForeignLanguage: "Text2",
-  },
-  {
-    id: "3",
-    MainLanguage: "Yazi3",
-    ForeignLanguage: "Text3",
-  },
-]);
-export default {
-  data() {
+export default defineComponent({
+  setup() {
+    const langWordStore = useLangueageWordStore();
+    const list = langWordStore.list;
     return {
-      languageData: languageWords,
+      languageData: list,
     };
   },
   components: { WordsTable },
-};
+});
 </script>
 <style scoped>
 .addword-container {
@@ -55,7 +41,5 @@ export default {
 }
 .word-item-2 {
   grid-row: 2;
-  width: 100%;
-  height: 100%;
 }
 </style>

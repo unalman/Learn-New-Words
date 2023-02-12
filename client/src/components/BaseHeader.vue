@@ -32,7 +32,6 @@ export default defineComponent({
 <style scoped>
 nav {
   height: 100%;
-  width: 100%;
   font-size: 20px;
   font-weight: bold;
   background-color: var(--lightBlue);
@@ -48,13 +47,5 @@ nav ul {
 }
 ul li {
   list-style-type: none;
-  /* align-self: center;
-  margin-right: auto; */
 }
-/* nav ul li:first-child {
-  margin-left: 1rem;
-}
-ul li:nth-child(2) {
-  margin-right: 1rem;
-} */
 </style>
