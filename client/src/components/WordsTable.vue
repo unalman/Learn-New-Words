@@ -1,7 +1,7 @@
 <template>
   <div class="word-top">
     <div class="word-errorDiv">
-      <ErrorBlock v-if="errors.length > 0" :errors="errors" />
+      <ErrorBlock v-if="showError" :errors="errors" />
     </div>
     <div class="word-btn">
       <CustomBtn3 @click="addItem()" :btnName="buttonNames.add" />
@@ -16,7 +16,7 @@
     <ul class="word-list" v-auto-animate>
       <li
         class="word-list-item"
-        v-for="(item, index) in getLanguageData()"
+        v-for="(item, index) in getLanguageData"
         v-bind:key="item.id"
       >
         <div
@@ -80,6 +80,9 @@
           />
         </div>
       </li>
+      <li class="word-list-noresult" v-if="wordsList.length == 0">
+        {{ errorClasses.noResult }}
+      </li>
     </ul>
   </div>
 </template>
@@ -89,10 +92,12 @@ import CustomBtn3 from "./buttons/CustomBtn3.vue";
 import ErrorBlock from "./ErrorBlock.vue";
 import type { IWordTable, ILanguageWord } from "typings/interface/IWordTable";
 import { defineComponent } from "vue";
+import type { PropType } from "vue";
+
 export default defineComponent({
   props: {
     languageData: {
-      type: Array as () => ILanguageWord[],
+      type: Array as PropType<ILanguageWord[]>,
     },
   },
   data(): IWordTable {
@@ -113,6 +118,7 @@ export default defineComponent({
       },
       errorClasses: {
         errorBorder: "errorBorder",
+        noResult: "Herhangi bir sonuç yok",
       },
       errors: [],
       isEdit: false,
@@ -127,14 +133,14 @@ export default defineComponent({
   },
   components: { CustomBtn2, CustomBtn3, ErrorBlock },
   methods: {
-    addItem() {
+    addItem(): void {
       if (this.isEdit) return;
       this.newItem = true;
       var lang = createNewLangWord(this.wordsList as ILanguageWord[]);
       (this.wordsList as ILanguageWord[]).unshift(lang);
       this.editMode(lang.id);
     },
-    editMode(id: string) {
+    editMode(id: string): void {
       if (this.isEdit) return;
       this.selectedId = id;
       this.previousValues = Object.assign(
@@ -143,14 +149,14 @@ export default defineComponent({
       );
       this.isEdit = true;
     },
-    deleteWord(index: number) {
+    deleteWord(index: number): void {
       (this.wordsList as ILanguageWord[]).splice(index, 1);
     },
-    updateWord() {
+    updateWord(): void {
       this.isEdit = !this.isValid();
       this.newItem = false;
     },
-    cancelWord(index: number) {
+    cancelWord(index: number): void {
       this.updatePreviousLanguage();
       (this.wordsList as ILanguageWord[]).splice(index, 1);
       this.isEdit = false;
@@ -187,7 +193,7 @@ export default defineComponent({
       }
       return true;
     },
-    updatePreviousLanguage() {
+    updatePreviousLanguage(): void {
       var words = this.wordsList?.map((obj: ILanguageWord) => {
         if (obj.id == this.selectedId) {
           return (obj = this.previousValues);
@@ -196,12 +202,19 @@ export default defineComponent({
       });
       this.wordsList = words;
     },
-    findLanguagebyId(id: string) {
-      return this.wordsList?.find((x: ILanguageWord) => x.id == id);
+    findLanguagebyId(id: string): ILanguageWord | null {
+      return this.wordsList?.find(
+        (x: ILanguageWord) => x.id == id
+      ) as ILanguageWord | null;
     },
+  },
+  computed: {
     getLanguageData(): ILanguageWord[] {
       var words = this.wordsList as ILanguageWord[];
       return words.sort(langDataDescendingSort);
+    },
+    showError() {
+      return this.errors.length > 0;
     },
   },
 });
@@ -215,11 +228,14 @@ function createNewLangWord(languageData: ILanguageWord[]): ILanguageWord {
   };
   return newObj;
 }
-function getLastId(languageData: ILanguageWord[]) {
+function getLastId(languageData: ILanguageWord[]): string {
   return (Math.max(...languageData.map((x) => parseInt(x.id))) + 1).toString();
 }
-function langDataDescendingSort(a: ILanguageWord, b: ILanguageWord) {
-  return parseInt(b.id) - parseInt(a.id);
+function langDataDescendingSort(
+  model1: ILanguageWord,
+  model2: ILanguageWord
+): number {
+  return parseInt(model2.id) - parseInt(model1.id);
 }
 </script>
 <style scoped>
@@ -252,6 +268,11 @@ function langDataDescendingSort(a: ILanguageWord, b: ILanguageWord) {
   padding-left: 1.5rem;
   border-top: 1px solid var(--lightGreyTableBorder);
   justify-content: space-between;
+}
+.word-list-noresult {
+  color: #4a4a4a;
+  font-size: 20px;
+  padding: 10px;
 }
 .word-item-btns {
   padding-right: 5rem;

@@ -18,7 +18,8 @@ interface IWordTable {
     foreignLanguageText: string;
   };
   errorClasses: {
-    errorBorder: "errorBorder";
+    errorBorder: string;
+    noResult: string;
   };
   previousValues: ILanguageWord;
 }
