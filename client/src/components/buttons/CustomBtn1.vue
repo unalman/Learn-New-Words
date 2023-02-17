@@ -1,5 +1,5 @@
 <template>
-  <a class="customBtn1">{{ btnName }}</a>
+  <a class="customBtn1" data-cy="btn1">{{ btnName }}</a>
 </template>
 <script lang="ts">
 export default {
@@ -12,7 +12,7 @@ export default {
 .customBtn1 {
   color: white;
   display: inline-block;
-  background-color: #5fa7db;
+  background-color: rgb(38 105 205);
   font-size: 1.5rem;
   border-radius: 0.3rem;
   padding: 3px;
