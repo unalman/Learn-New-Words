@@ -1,5 +1,5 @@
 <template>
-  <a>{{ btnName }}</a>
+  <a data-cy="btn5" class="custombtn5">{{ btnName }}</a>
 </template>
 <script lang="ts">
 export default {
@@ -9,12 +9,8 @@ export default {
 };
 </script>
 <style scoped>
-a {
+.custombtn5 {
   text-decoration: none;
   color: rgb(38 105 205);
 }
-/* a:hover {
-  color: var(--hotmag);
-  text-decoration: none;
-} */
 </style>

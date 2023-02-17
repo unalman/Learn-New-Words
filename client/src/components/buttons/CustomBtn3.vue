@@ -1,5 +1,5 @@
 <template>
-  <button class="customBtn3">{{ btnName }}</button>
+  <button data-cy="btn3" class="customBtn3">{{ btnName }}</button>
 </template>
 <script lang="ts">
 export default {

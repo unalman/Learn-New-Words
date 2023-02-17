@@ -1,6 +1,6 @@
 !
 <template>
-  <button type="submit" class="customBtn2">{{ btnName }}</button>
+  <button type="submit" data-cy="btn2" class="customBtn2">{{ btnName }}</button>
 </template>
 <script lang="ts">
 export default {

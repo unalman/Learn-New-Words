@@ -1,7 +1,13 @@
 <template>
   <nav>
     <ul>
-      <li><CustomBtn5 :btnName="homePage.name" :href="homePage.href" /></li>
+      <li>
+        <CustomBtn5
+          data-cy="homeBtn"
+          :btnName="homePage.name"
+          :href="homePage.href"
+        />
+      </li>
       <li>
         <CustomBtn5 :btnName="contactPage.name" :href="contactPage.href" />
       </li>
@@ -30,22 +36,5 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-nav {
-  height: 100%;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: var(--lightBlue);
-  display: flex;
-}
-nav ul {
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.7rem;
-}
-ul li {
-  list-style-type: none;
-}
+@import "../assets/baseHeader.css";
 </style>

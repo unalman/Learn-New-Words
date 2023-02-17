@@ -1268,10 +1268,10 @@
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-2.6.20.tgz"
   "version" "2.6.20"
 
-"cypress@^10.0.2":
-  "integrity" "sha512-aQ4JVZVib4Xd9FZW8IRZfKelUvqF4y5A+oUbNvn8TlsBmEfIg3m5Xd6Mt6PVU/jHiVJ9Psl905B3ZPnrDcmyuQ=="
-  "resolved" "https://registry.npmjs.org/cypress/-/cypress-10.1.0.tgz"
-  "version" "10.1.0"
+"cypress@^12.5.1":
+  "integrity" "sha512-ZmCmJ3lsyeOpBfh410m5+AO2CO1AxAzFBt7k6/uVbNcrNZje1vdiwYTpj2ksPKg9mjr9lR6V8tmlDNMvr4H/YQ=="
+  "resolved" "https://registry.npmjs.org/cypress/-/cypress-12.5.1.tgz"
+  "version" "12.5.1"
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -1292,7 +1292,7 @@
     "dayjs" "^1.10.4"
     "debug" "^4.3.2"
     "enquirer" "^2.3.6"
-    "eventemitter2" "^6.4.3"
+    "eventemitter2" "6.4.7"
     "execa" "4.1.0"
     "executable" "^4.1.1"
     "extract-zip" "2.0.1"
@@ -1728,10 +1728,10 @@
     "stream-combiner" "~0.0.4"
     "through" "~2.3.1"
 
-"eventemitter2@^6.4.3":
-  "integrity" "sha512-bXE7Dyc1i6oQElDG0jMRZJrRAn9QR2xyyFGmBdZleNmyQX0FqGYmhZIrIrpPfm/w//LTo4tVQGOGQcGCb5q9uw=="
-  "resolved" "https://registry.npmjs.org/eventemitter2/-/eventemitter2-6.4.5.tgz"
-  "version" "6.4.5"
+"eventemitter2@6.4.7":
+  "integrity" "sha512-tYUSVOGeQPKt/eC1ABfhHy5Xd96N3oIijJvN3O9+TsC28T5V9yX9oEfEK5faP0EFSNVOG97qtAS68GBrQB2hDg=="
+  "resolved" "https://registry.npmjs.org/eventemitter2/-/eventemitter2-6.4.7.tgz"
+  "version" "6.4.7"
 
 "execa@4.1.0":
   "integrity" "sha512-j5W0//W7f8UxAn8hXVnwG8tLwdiUy4FJLcSupCg6maBYZDpyBvTApK7KyuI4bKj8KOh1r2YH+6ucuYtJv1bTZA=="
