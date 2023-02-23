@@ -3,6 +3,7 @@ import "../../../cypress/support/component";
 import CustomBtn2 from "../buttons/CustomBtn2.vue";
 import CustomBtn3 from "../buttons/CustomBtn3.vue";
 import ErrorBlock from "../ErrorBlock.vue";
+import type { ILanguageWord } from "../../../typings/interface/IWordTable";
 
 beforeEach(() => {
   cy.mount(WordsTable, {
@@ -18,7 +19,7 @@ beforeEach(() => {
           MainLanguage: "Yazi2",
           ForeignLanguage: "Text2",
         },
-      ],
+      ] as ILanguageWord[],
     },
     components: { CustomBtn2, CustomBtn3, ErrorBlock },
   });
@@ -73,7 +74,7 @@ describe("Cancel Button Tests", () => {
         MainLanguage: "Yazi1",
         ForeignLanguage: "Text1",
       },
-    ];
+    ] as ILanguageWord[];
     cy.mount(WordsTable, {
       props: {
         languageData: datas,
@@ -103,7 +104,7 @@ describe("Update Button Tests", () => {
         MainLanguage: "Yazi1",
         ForeignLanguage: "Text1",
       },
-    ];
+    ] as ILanguageWord[];
     cy.mount(WordsTable, {
       props: {
         languageData: datas,
@@ -127,7 +128,7 @@ describe("Update Button Tests", () => {
         MainLanguage: "Yazi1",
         ForeignLanguage: "Text1",
       },
-    ];
+    ] as ILanguageWord[];
     cy.mount(WordsTable, {
       props: {
         languageData: datas,
