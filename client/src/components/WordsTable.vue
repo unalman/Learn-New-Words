@@ -1,13 +1,13 @@
 <template>
   <div class="word-top">
     <div class="word-errorDiv">
-      <ErrorBlock v-if="showError" :errors="errors" />
+      <ErrorBlock v-if="showError" :errors="data.errors" />
     </div>
     <div class="word-btn">
       <CustomBtn3
         @click="addItem()"
         data-cy="addbtn"
-        :btnName="buttonNames.add"
+        :btnName="data.buttonNames.add"
       />
     </div>
   </div>
@@ -27,21 +27,26 @@
         <div
           class="word-item-firstLang"
           data-cy="mainLang"
-          v-if="!isEdit || selectedId != item.id"
+          v-if="!data.isEdit || data.selectedId != item.id"
         >
           {{ item.MainLanguage }}
         </div>
         <div
           class="word-item-secondLang"
           data-cy="foreignLang"
-          v-if="!isEdit || selectedId != item.id"
+          v-if="!data.isEdit || data.selectedId != item.id"
         >
           {{ item.ForeignLanguage }}
         </div>
-        <div class="word-item-firstLang" v-if="isEdit && selectedId == item.id">
+        <div
+          class="word-item-firstLang"
+          v-if="data.isEdit && data.selectedId == item.id"
+        >
           <input
             class="textInput"
-            :class="validation.mainLanguage ? errorClasses.errorBorder : ''"
+            :class="
+              data.validation.mainLanguage ? data.errorClasses.errorBorder : ''
+            "
             id="mainLangEdit"
             data-cy="mainLangEdit"
             type="text"
@@ -50,11 +55,15 @@
         </div>
         <div
           class="word-item-secondLang"
-          v-if="isEdit && selectedId == item.id"
+          v-if="data.isEdit && data.selectedId == item.id"
         >
           <input
             class="textInput"
-            :class="validation.foreignLanguage ? errorClasses.errorBorder : ''"
+            :class="
+              data.validation.foreignLanguage
+                ? data.errorClasses.errorBorder
+                : ''
+            "
             id="foreignLangEdit"
             data-cy="foreignLangEdit"
             type="text"
@@ -67,191 +76,180 @@
             name="submit"
             data-cy="editbtn"
             v-on:click="editMode(item.id)"
-            v-if="!isEdit || selectedId != item.id"
-            :btnName="buttonNames.edit"
+            v-if="!data.isEdit || data.selectedId != item.id"
+            :btnName="data.buttonNames.edit"
           />
           <CustomBtn2
             class="delete"
             data-cy="deletebtn"
             v-on:click="deleteWord(index)"
-            v-if="!isEdit || selectedId != item.id"
-            :btnName="buttonNames.delete"
+            v-if="!data.isEdit || data.selectedId != item.id"
+            :btnName="data.buttonNames.delete"
           />
           <CustomBtn2
             class="edit"
             data-cy="okbtn"
             v-on:click="updateWord()"
-            v-if="isEdit && selectedId == item.id"
-            :btnName="buttonNames.ok"
+            v-if="data.isEdit && data.selectedId == item.id"
+            :btnName="data.buttonNames.ok"
           />
           <CustomBtn2
             class="delete"
             data-cy="cancelbtn"
             v-on:click="cancelWord(index)"
-            v-if="isEdit && selectedId == item.id"
-            :btnName="buttonNames.cancel"
+            v-if="data.isEdit && data.selectedId == item.id"
+            :btnName="data.buttonNames.cancel"
           />
         </div>
       </li>
-      <li class="word-list-noresult" v-if="wordsList.length == 0">
-        {{ errorClasses.noResult }}
+      <li class="word-list-noresult" v-if="data.wordsList.length == 0">
+        {{ data.errorClasses.noResult }}
       </li>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
 import { useAutoAnimate } from "@formkit/auto-animate/vue";
-
-const [parent] = useAutoAnimate();
-</script>
-<script lang="ts">
+import { computed, ref } from "vue";
 import CustomBtn2 from "./buttons/CustomBtn2.vue";
 import CustomBtn3 from "./buttons/CustomBtn3.vue";
 import ErrorBlock from "./ErrorBlock.vue";
 import type { IWordTable, ILanguageWord } from "typings/interface/IWordTable";
-import { defineComponent } from "vue";
 import type { PropType } from "vue";
 
-export default defineComponent({
-  props: {
-    languageData: {
-      type: Array as PropType<ILanguageWord[]>,
-      required: true,
-    },
+const [parent] = useAutoAnimate();
+const props = defineProps({
+  languageData: {
+    type: Array as PropType<ILanguageWord[]>,
+    required: true,
   },
-  data(): IWordTable {
-    return {
-      wordsList: this.languageData as ILanguageWord[],
-      buttonNames: {
-        add: "Ekle",
-        edit: "Düzenle",
-        delete: "Sil",
-        ok: "Tamam",
-        cancel: "İptal",
-      },
-      validation: {
-        mainLanguage: false,
-        mainLanguageText: "Ana Dil'e değer girilmedi",
-        foreignLanguage: false,
-        foreignLanguageText: "Yabancı Dil'e değer girilmedi",
-      },
-      errorClasses: {
-        errorBorder: "errorBorder",
-        noResult: "Herhangi bir sonuç yok",
-      },
-      errors: [],
-      isEdit: false,
-      selectedId: "",
-      newItem: false,
-      previousValues: {
-        id: "",
-        MainLanguage: "",
-        ForeignLanguage: "",
-      },
-    };
+});
+
+var data = ref<IWordTable>({
+  wordsList: props.languageData as ILanguageWord[],
+  buttonNames: {
+    add: "Ekle",
+    edit: "Düzenle",
+    delete: "Sil",
+    ok: "Tamam",
+    cancel: "İptal",
   },
-  components: { CustomBtn2, CustomBtn3, ErrorBlock },
-  methods: {
-    addItem(): void {
-      if (this.isEdit) return;
-      this.newItem = true;
-      var lang = this.createNewLangWord(this.wordsList as ILanguageWord[]);
-      (this.wordsList as ILanguageWord[]).unshift(lang);
-      this.editMode(lang.id);
-    },
-    editMode(id: string): void {
-      if (this.isEdit) return;
-      this.selectedId = id;
-      this.previousValues = Object.assign(
-        {},
-        this.findLanguagebyId(id) as ILanguageWord
-      );
-      this.isEdit = true;
-    },
-    deleteWord(index: number): void {
-      (this.wordsList as ILanguageWord[]).splice(index, 1);
-    },
-    updateWord(): void {
-      this.isEdit = !this.isValid();
-      this.newItem = false;
-    },
-    cancelWord(index: number): void {
-      this.updatePreviousLanguage();
-      if (this.newItem) {
-        (this.wordsList as ILanguageWord[]).splice(index, 1);
-      }
-      this.isEdit = false;
-      this.newItem = false;
-      this.errors = [];
-      this.validation.mainLanguage = false;
-      this.validation.foreignLanguage = false;
-    },
-    isValid(): boolean {
-      var isSuccess = true;
-      const mainLanguageInput = document.getElementById(
-        "mainLangEdit"
-      ) as HTMLInputElement | null;
-      const foreignLanguageInput = document.getElementById(
-        "foreignLangEdit"
-      ) as HTMLInputElement | null;
-      this.errors = [];
-      if (!this.textValidation(mainLanguageInput?.value as string)) {
-        this.errors.push(this.validation.mainLanguageText);
-        this.validation.mainLanguage = true;
-        isSuccess = false;
-      }
-      if (!this.textValidation(foreignLanguageInput?.value as string)) {
-        this.errors.push(this.validation.foreignLanguageText);
-        this.validation.foreignLanguage = true;
-        isSuccess = false;
-      }
-      return isSuccess;
-    },
-    textValidation(text: string): boolean {
-      var trimmedValue = text?.replace(/\s/g, "");
-      if (text === null || trimmedValue == "") {
-        return false;
-      }
-      return true;
-    },
-    updatePreviousLanguage(): void {
-      var words = this.wordsList?.map((obj: ILanguageWord) => {
-        if (obj.id == this.selectedId) {
-          return (obj = this.previousValues);
-        }
-        return obj;
-      });
-      this.wordsList = words;
-    },
-    findLanguagebyId(id: string): ILanguageWord | null {
-      return this.wordsList?.find(
-        (x: ILanguageWord) => x.id == id
-      ) as ILanguageWord | null;
-    },
-    getLastId(languageData: ILanguageWord[]): string {
-      return (
-        Math.max(...languageData.map((x) => parseInt(x.id))) + 1
-      ).toString();
-    },
-    createNewLangWord(languageData: ILanguageWord[]): ILanguageWord {
-      let newObj: ILanguageWord;
-      newObj = {
-        id: this.getLastId(languageData),
-        MainLanguage: "",
-        ForeignLanguage: "",
-      };
-      return newObj;
-    },
+  validation: {
+    mainLanguage: false,
+    mainLanguageText: "Ana Dil'e değer girilmedi",
+    foreignLanguage: false,
+    foreignLanguageText: "Yabancı Dil'e değer girilmedi",
   },
-  computed: {
-    getLanguageData(): ILanguageWord[] {
-      var words = this.wordsList as ILanguageWord[];
-      return words.sort((a, b) => (parseInt(a.id) > parseInt(b.id) ? -1 : 1));
-    },
-    showError() {
-      return this.errors.length > 0;
-    },
+  errorClasses: {
+    errorBorder: "errorBorder",
+    noResult: "Herhangi bir sonuç yok",
   },
+  errors: [],
+  isEdit: false,
+  selectedId: "",
+  newItem: false,
+  previousValues: {
+    id: "",
+    MainLanguage: "",
+    ForeignLanguage: "",
+  },
+});
+
+const addItem = (): void => {
+  if (data.value.isEdit) return;
+  data.value.newItem = true;
+  var lang = createNewLangWord(data.value.wordsList as ILanguageWord[]);
+  (data.value.wordsList as ILanguageWord[]).unshift(lang);
+  editMode(lang.id);
+};
+const editMode = (id: string): void => {
+  if (data.value.isEdit) return;
+  data.value.selectedId = id;
+  data.value.previousValues = Object.assign(
+    {},
+    findLanguagebyId(id) as ILanguageWord
+  );
+  data.value.isEdit = true;
+};
+const deleteWord = (index: number): void => {
+  (data.value.wordsList as ILanguageWord[]).splice(index, 1);
+};
+const updateWord = (): void => {
+  data.value.isEdit = !isValid();
+  data.value.newItem = false;
+};
+const cancelWord = (index: number): void => {
+  updatePreviousLanguage();
+  if (data.value.newItem) {
+    (data.value.wordsList as ILanguageWord[]).splice(index, 1);
+  }
+  data.value.isEdit = false;
+  data.value.newItem = false;
+  data.value.errors = [];
+  data.value.validation.mainLanguage = false;
+  data.value.validation.foreignLanguage = false;
+};
+const isValid = (): boolean => {
+  var isSuccess = true;
+  const mainLanguageInput = document.getElementById(
+    "mainLangEdit"
+  ) as HTMLInputElement | null;
+  const foreignLanguageInput = document.getElementById(
+    "foreignLangEdit"
+  ) as HTMLInputElement | null;
+  data.value.errors = [];
+  if (!textValidation(mainLanguageInput?.value as string)) {
+    data.value.errors.push(data.value.validation.mainLanguageText);
+    data.value.validation.mainLanguage = true;
+    isSuccess = false;
+  }
+  if (!textValidation(foreignLanguageInput?.value as string)) {
+    data.value.errors.push(data.value.validation.foreignLanguageText);
+    data.value.validation.foreignLanguage = true;
+    isSuccess = false;
+  }
+  return isSuccess;
+};
+const textValidation = (text: string): boolean => {
+  var trimmedValue = text?.replace(/\s/g, "");
+  if (text === null || trimmedValue == "") {
+    return false;
+  }
+  return true;
+};
+const updatePreviousLanguage = (): void => {
+  var words = data.value.wordsList?.map((obj: ILanguageWord) => {
+    if (obj.id == data.value.selectedId) {
+      return (obj = data.value.previousValues);
+    }
+    return obj;
+  });
+  data.value.wordsList = words;
+};
+const findLanguagebyId = (id: string): ILanguageWord | null => {
+  return data.value.wordsList?.find(
+    (x: ILanguageWord) => x.id == id
+  ) as ILanguageWord | null;
+};
+const getLastId = (languageData: ILanguageWord[]): string => {
+  return (Math.max(...languageData.map((x) => parseInt(x.id))) + 1).toString();
+};
+const createNewLangWord = (languageData: ILanguageWord[]): ILanguageWord => {
+  let newObj: ILanguageWord;
+  newObj = {
+    id: getLastId(languageData),
+    MainLanguage: "",
+    ForeignLanguage: "",
+  };
+  return newObj;
+};
+
+const getLanguageData = computed((): ILanguageWord[] => {
+  var words = data.value.wordsList as ILanguageWord[];
+  return words.sort((a, b) => (parseInt(a.id) > parseInt(b.id) ? -1 : 1));
+});
+const showError = computed(() => {
+  return data.value.errors.length > 0;
 });
 </script>
 <style scoped>
