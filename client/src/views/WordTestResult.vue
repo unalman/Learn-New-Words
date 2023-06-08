@@ -31,7 +31,7 @@
   </div>
 </template>
 <script lang="ts">
-import CustomBtn4 from "../components/buttons/CustomBtn4.vue";
+import CustomBtn4 from "@/components/buttons/CustomBtn4.vue";
 export default {
   components: { CustomBtn4 },
   data() {
