@@ -7,7 +7,7 @@
   </div>
 </template>
 <script lang="ts">
-import WordsTable from "../components/WordsTable.vue";
+import WordsTable from "@/components/WordsTable.vue";
 import { defineComponent } from "vue";
 import { useLangueageWordStore } from "@/stores/LanguageWord";
 

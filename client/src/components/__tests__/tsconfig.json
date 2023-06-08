@@ -1,10 +1,11 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["./**/*", "../../../cypress/support/**/*", "../cypress.d.ts"],
+  //"include": ["./**/*", "../../../cypress/support/**/*", "../cypress.d.ts"],
+  //"exclude": ["@/**/__tests__/*"],
   "compilerOptions": {
-    "isolatedModules": false,
+    "isolatedModules": true,
     "target": "es5",
-    "lib": ["es5", "dom"],
-    "types": ["cypress", "src"]
+    "lib": ["es5"]
+    //"types": ["cypress"]
   }
 }
