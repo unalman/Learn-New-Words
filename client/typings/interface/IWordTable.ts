@@ -1,3 +1,5 @@
+import type { ILanguageWord } from "typings/interface/ILanguageWord";
+
 interface IWordTable {
   wordsList: ILanguageWord[];
   isEdit: boolean;
@@ -24,10 +26,4 @@ interface IWordTable {
   previousValues: ILanguageWord;
 }
 
-interface ILanguageWord {
-  id: string;
-  MainLanguage: string;
-  ForeignLanguage: string;
-}
-
-export type { IWordTable, ILanguageWord };
+export type { IWordTable };

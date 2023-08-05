@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { ILanguageWord } from "typings/interface/IWordTable";
+import type { ILanguageWord } from "typings/interface/ILanguageWord";
 
 type StateShape = {
   list: ILanguageWord[];
