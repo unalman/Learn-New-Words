@@ -3,7 +3,7 @@ import "../../../cypress/support/component";
 import CustomBtn2 from "../buttons/CustomBtn2.vue";
 import CustomBtn3 from "../buttons/CustomBtn3.vue";
 import ErrorBlock from "../ErrorBlock.vue";
-import type { ILanguageWord } from "../../../typings/interface/IWordTable";
+import type { ILanguageWord } from "../../../typings/interface/ILanguageWord";
 
 beforeEach(() => {
   cy.mount(WordsTable, {

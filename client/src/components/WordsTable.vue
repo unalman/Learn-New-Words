@@ -1,5 +1,5 @@
 <template>
-  <div class="word-top">
+  <div class="word-top" data-testId="WordsTable-TestId">
     <div class="word-errorDiv">
       <ErrorBlock v-if="showError" :errors="data.errors" />
     </div>
@@ -102,7 +102,11 @@
           />
         </div>
       </li>
-      <li class="word-list-noresult" v-if="data.wordsList.length == 0">
+      <li
+        class="word-list-noresult"
+        data-testId="noresult"
+        v-if="data.wordsList.length == 0"
+      >
         {{ data.errorClasses.noResult }}
       </li>
     </ul>
@@ -114,14 +118,18 @@ import { computed, ref } from "vue";
 import CustomBtn2 from "./buttons/CustomBtn2.vue";
 import CustomBtn3 from "./buttons/CustomBtn3.vue";
 import ErrorBlock from "./ErrorBlock.vue";
-import type { IWordTable, ILanguageWord } from "typings/interface/IWordTable";
+import LanguageWord from "../../typings/classes/LanguageWord";
+import { textValidationAndTrim } from "../libs/common";
+import { getLastId, sortLanguageWordDescending } from "../libs/WordsTable";
+
+import type { IWordTable } from "typings/interface/IWordTable";
+import type { ILanguageWord } from "typings/interface/ILanguageWord";
 import type { PropType } from "vue";
 
 const [parent] = useAutoAnimate();
 const props = defineProps({
   languageData: {
     type: Array as PropType<ILanguageWord[]>,
-    required: true,
   },
 });
 
@@ -198,24 +206,17 @@ const isValid = (): boolean => {
     "foreignLangEdit"
   ) as HTMLInputElement | null;
   data.value.errors = [];
-  if (!textValidation(mainLanguageInput?.value as string)) {
+  if (!textValidationAndTrim(mainLanguageInput?.value as string)) {
     data.value.errors.push(data.value.validation.mainLanguageText);
     data.value.validation.mainLanguage = true;
     isSuccess = false;
   }
-  if (!textValidation(foreignLanguageInput?.value as string)) {
+  if (!textValidationAndTrim(foreignLanguageInput?.value as string)) {
     data.value.errors.push(data.value.validation.foreignLanguageText);
     data.value.validation.foreignLanguage = true;
     isSuccess = false;
   }
   return isSuccess;
-};
-const textValidation = (text: string): boolean => {
-  var trimmedValue = text?.replace(/\s/g, "");
-  if (text === null || trimmedValue == "") {
-    return false;
-  }
-  return true;
 };
 const updatePreviousLanguage = (): void => {
   var words = data.value.wordsList?.map((obj: ILanguageWord) => {
@@ -231,22 +232,15 @@ const findLanguagebyId = (id: string): ILanguageWord | null => {
     (x: ILanguageWord) => x.id == id
   ) as ILanguageWord | null;
 };
-const getLastId = (languageData: ILanguageWord[]): string => {
-  return (Math.max(...languageData.map((x) => parseInt(x.id))) + 1).toString();
-};
 const createNewLangWord = (languageData: ILanguageWord[]): ILanguageWord => {
-  let newObj: ILanguageWord;
-  newObj = {
-    id: getLastId(languageData),
-    MainLanguage: "",
-    ForeignLanguage: "",
-  };
+  let newObj: ILanguageWord = LanguageWord.createInstance(
+    getLastId(languageData)
+  );
   return newObj;
 };
-
 const getLanguageData = computed((): ILanguageWord[] => {
   var words = data.value.wordsList as ILanguageWord[];
-  return words.sort((a, b) => (parseInt(a.id) > parseInt(b.id) ? -1 : 1));
+  return sortLanguageWordDescending(words);
 });
 const showError = computed(() => {
   return data.value.errors.length > 0;
