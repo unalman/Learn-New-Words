@@ -7,6 +7,8 @@ interface IWordTest {
     continue: string;
     result: string;
   };
+  correct: string;
+  answer: string;
 }
 interface IWordTestReturn extends ILanguageWord {
   isCorrectAnswer: Boolean;

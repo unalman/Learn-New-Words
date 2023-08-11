@@ -1,5 +1,8 @@
 <template>
-  <div class="wordTest-container">
+  <div
+    class="wordTest-container"
+    :class="{ wordTestContainerFirstSize: !isAnswered }"
+  >
     <div class="wordTest-mainItem">
       <div class="wordTest-Question">
         {{ data.languageWords[answerCount].ForeignLanguage }}
@@ -32,14 +35,27 @@
       </div>
     </div>
   </div>
+  <div
+    class="wordTest-Result"
+    :class="{
+      wordTestResultPassive: !isAnswered,
+      wordTestResultCorrect: isCorrect,
+      wordTestResultWrong: !isCorrect,
+    }"
+  >
+    {{
+      isCorrect
+        ? data.correct
+        : `Cevap: ${data.languageWords[answerCount].MainLanguage}`
+    }}
+  </div>
 </template>
 <script setup lang="ts">
 import CustomBtn4 from "../components/buttons/CustomBtn4.vue";
 import { ref } from "vue";
 import type { IWordTest, IWordTestReturn } from "typings/interface/IWordTest";
-import type { ILanguageWord } from "typings/interface/ILanguageWord";
 import { useLangueageWordStore } from "@/stores/LanguageWord";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
 const langWordStore = useLangueageWordStore();
 const data = ref<IWordTest>({
@@ -50,52 +66,58 @@ const data = ref<IWordTest>({
     continue: "Sonraki",
     result: "Sonuç",
   },
+  correct: "Doğru",
+  answer: "Cevap",
 });
-var correctAnswer = 0,
-  wrongAnswer = 0,
-  answerCount = 0;
+var answerCount = 0;
 var isAnswered = ref<Boolean>(false);
+var isCorrect = ref<Boolean>(false);
+
 var wordTestReturns = Array<IWordTestReturn>();
 const text = ref<string>("");
 const updateResult = () => {
   if (answerCount != 4 && text.value.trim() != "") {
-    var isCorrect = false;
+    isCorrect.value = false;
     if (
       data.value.languageWords[answerCount].MainLanguage.toLowerCase() ==
       text.value.toLowerCase()
     ) {
-      isCorrect = true;
+      isCorrect.value = true;
     }
     var wordTestReturn: IWordTestReturn = {
       id: data.value.languageWords[answerCount].id,
       MainLanguage: data.value.languageWords[answerCount].MainLanguage,
       ForeignLanguage: data.value.languageWords[answerCount].ForeignLanguage,
-      isCorrectAnswer: isCorrect,
+      isCorrectAnswer: isCorrect.value,
     };
     wordTestReturns.push(wordTestReturn);
     isAnswered.value = true;
-    answerCount++;
   }
 };
 const nextQuestion = () => {
   isAnswered.value = false;
+  answerCount++;
+  text.value = "";
 };
 const router = useRouter();
 function routeResultPage() {
   var jsonArray = JSON.stringify(wordTestReturns);
   router.push({
     name: "WordTestResult",
-    query: { wordTestReturns: jsonArray }
+    query: { wordTestReturns: jsonArray },
   });
 }
 </script>
 <style scoped>
 .wordTest-container {
   display: grid;
-  height: 100%;
+  height: 93%;
   min-height: inherit;
   grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
   overflow: overlay;
+}
+.wordTestContainerFirstSize {
+  height: 100%;
 }
 .wordTest-mainItem {
   grid-column: 3;
@@ -123,5 +145,31 @@ function routeResultPage() {
   margin-top: 1rem;
   display: flex;
   justify-content: space-evenly;
+}
+.wordTest-Result {
+  height: 7%;
+  padding-top: 1.3vh;
+}
+.wordTestResultPassive {
+  display: none;
+  height: 0%;
+}
+.wordTestResultCorrect {
+  background: radial-gradient(
+    circle,
+    rgba(187, 226, 255, 1) 0%,
+    rgba(123, 212, 119, 1) 20%,
+    rgba(187, 226, 255, 1) 47%,
+    rgba(187, 226, 255, 1) 100%
+  );
+}
+.wordTestResultWrong {
+  background: radial-gradient(
+    circle,
+    rgba(187, 226, 255, 1) 0%,
+    rgba(255, 146, 146, 1) 20%,
+    rgba(187, 226, 255, 1) 47%,
+    rgba(187, 226, 255, 1) 100%
+  );
 }
 </style>
