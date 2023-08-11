@@ -1,5 +1,5 @@
 <template>
-  <div>Copyright © 2022. Tüm hakları saklıdır.</div>
+  <div>Copyright © 2023</div>
 </template>
 
 <style scoped>

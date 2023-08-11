@@ -25,6 +25,16 @@ export const useLangueageWordStore = defineStore({
         MainLanguage: "Yazi3",
         ForeignLanguage: "Text3",
       },
+      {
+        id: "4",
+        MainLanguage: "Yazi4",
+        ForeignLanguage: "Text4",
+      },
+      {
+        id: "5",
+        MainLanguage: "Yazi5",
+        ForeignLanguage: "Text5",
+      }
     ],
   }),
   //Computed
