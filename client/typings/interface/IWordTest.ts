@@ -7,6 +7,7 @@ interface IWordTest {
     continue: string;
     result: string;
   };
+  placeholderText:string;
   correct: string;
   answer: string;
 }

@@ -12,11 +12,13 @@
           type="text"
           v-model="text"
           class="answerText"
-          placeholder="Cevap"
+          :placeholder="data.placeholderText"
         />
       </div>
       <div class="wordTest-btnList">
-        <CustomBtn4 :btnName="data.buttonNames.idk" />
+        <CustomBtn4 :class="{
+          disabledBtn: answerCount != 4 && isAnswered
+        }" :btnName="data.buttonNames.idk" v-on:click="dontKnow()" :disabled="answerCount != 4 && isAnswered" />
         <CustomBtn4
           v-if="answerCount != 4 && !isAnswered"
           v-on:click="updateResult()"
@@ -46,7 +48,7 @@
     {{
       isCorrect
         ? data.correct
-        : `Cevap: ${data.languageWords[answerCount].MainLanguage}`
+        : `${data.answer}: ${data.languageWords[answerCount].MainLanguage}`
     }}
   </div>
 </template>
@@ -66,6 +68,7 @@ const data = ref<IWordTest>({
     continue: "Sonraki",
     result: "Sonuç",
   },
+  placeholderText:"Cevap",
   correct: "Doğru",
   answer: "Cevap",
 });
@@ -93,6 +96,17 @@ const updateResult = () => {
     wordTestReturns.push(wordTestReturn);
     isAnswered.value = true;
   }
+};
+const dontKnow = () => {
+  isCorrect.value = false;
+  isAnswered.value = true;
+  var wordTestReturn: IWordTestReturn = {
+    id: data.value.languageWords[answerCount].id,
+    MainLanguage: data.value.languageWords[answerCount].MainLanguage,
+    ForeignLanguage: data.value.languageWords[answerCount].ForeignLanguage,
+    isCorrectAnswer: isCorrect.value,
+  };
+  wordTestReturns.push(wordTestReturn);
 };
 const nextQuestion = () => {
   isAnswered.value = false;
@@ -137,6 +151,7 @@ function routeResultPage() {
   border: 1px solid var(--lightGreyTableBorder);
   font-size: inherit;
   outline: none;
+  text-align: center;
 }
 .answerText:focus {
   border: 1px solid var(--InputFocusGrey);
@@ -144,7 +159,7 @@ function routeResultPage() {
 .wordTest-btnList {
   margin-top: 1rem;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 .wordTest-Result {
   height: 7%;
