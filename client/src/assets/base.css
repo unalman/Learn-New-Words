@@ -5,6 +5,7 @@
   --lightGrey: #afa8a8;
   --lightGreyTableBorder: #dfc8c870;
   --InputFocusGrey: #545353;
+  --disabledColor: #aeb9c1;
 }
 
 body {
@@ -20,4 +21,7 @@ body {
 
 a {
   text-decoration: none;
+}
+.disabledBtn{
+  background-color: var(--disabledColor) !important;
 }
