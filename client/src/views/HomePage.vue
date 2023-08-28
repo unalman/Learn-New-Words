@@ -1,46 +1,42 @@
 <template>
   <div class="content-container">
     <div class="content-item1">
-      <div>Ezberlemek istediğin kelimeleri ekle!</div>
+      <div>{{ data.title }}</div>
       <div class="content-btnContainer">
-        <CustomBtn1 :btnName="btnAddWord.name" :href="btnAddWord.href" />
+        <CustomBtn1
+          :btnName="data.btnAddWord.name"
+          :href="data.btnAddWord.href"
+        />
       </div>
     </div>
     <div class="content-item2">
       <div>Kendini test et!</div>
       <div class="content-btnContainer">
-        <CustomBtn1 :btnName="btnTestWord.name" :href="btnTestWord.href" />
-      </div>
-    </div>
-    <div class="content-item3">
-      <div class="content-btnContainer">
-        <CustomBtn1 :btnName="btnResultPage.name" :href="btnResultPage.href" />
+        <CustomBtn1
+          :btnName="data.btnTestWord.name"
+          :href="data.btnTestWord.href"
+        />
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import type { IHomePageWords } from "typings/interface/IHomePageWord";
 import CustomBtn1 from "../components/buttons/CustomBtn1.vue";
-export default {
-  components: { CustomBtn1 },
-  data() {
-    return {
-      btnAddWord: {
-        name: "Kelime Ekle",
-        href: "/addword",
-      },
-      btnTestWord: {
-        name: "Kelime Testi",
-        href: "/wordtest",
-      },
-      btnResultPage: {
-        name: "Sonuç Sayfası",
-        href: "/wordtestresult",
-      },
-    };
+import { ref } from "vue";
+
+var data = ref<IHomePageWords>({
+  title: "Ezberlemek istediğin kelimeleri ekle!",
+  btnAddWord: {
+    name: "Kelime Ekle",
+    href: "/addword",
   },
-};
+  btnTestWord: {
+    name: "Kelime Testi",
+    href: "/wordtest",
+  },
+});
 </script>
 
 <style scoped>
