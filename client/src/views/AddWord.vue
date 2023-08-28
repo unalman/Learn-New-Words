@@ -2,25 +2,16 @@
   <div class="addword-container">
     <div class="word-item-1">Kelimeler</div>
     <div class="word-item-2">
-      <WordsTable :languageData="languageData" />
+      <WordsTable :languageData="list" />
     </div>
   </div>
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import WordsTable from "@/components/WordsTable.vue";
-import { defineComponent } from "vue";
 import { useLangueageWordStore } from "@/stores/LanguageWord";
 
-export default defineComponent({
-  setup() {
-    const langWordStore = useLangueageWordStore();
-    const list = langWordStore.list;
-    return {
-      languageData: list,
-    };
-  },
-  components: { WordsTable },
-});
+const langWordStore = useLangueageWordStore();
+const list = langWordStore.list;
 </script>
 <style scoped>
 .addword-container {

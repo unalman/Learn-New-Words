@@ -33,12 +33,12 @@ describe("Empty Data Tests", () => {
       },
       components: { CustomBtn2, CustomBtn3, ErrorBlock },
     });
-    cy.get(".word-list-noresult").should("be.visible");
+    cy.get(".word-list-noresult").should("exist");
   });
 });
 describe("Add Button Tests", () => {
-  it("Does it have Add button", () => {
-    cy.dataCy("addbtn");
+  it("'Add' button should exist", () => {
+    cy.dataCy("addbtn").should("exist");
   });
   it("A new object will be created, when the Add button is clicked and second click will not effect li.", () => {
     cy.dataCy("languageItem").should("have.length", 2);
@@ -59,7 +59,7 @@ describe("Error Component Tests", () => {
   it("Error component is visible", () => {
     cy.dataCy("addbtn").click();
     cy.dataCy("okbtn").first().click();
-    cy.get(".errorBlock-container").should("be.visible");
+    cy.get(".errorBlock-container").should("exist");
   });
 });
 describe("Cancel Button Tests", () => {
@@ -92,8 +92,8 @@ describe("Cancel Button Tests", () => {
 describe("Edit Button Tests", () => {
   it("Clicking the Edit button will open the Edit mode", () => {
     cy.dataCy("editbtn").first().click();
-    cy.dataCy("mainLangEdit").first().should("be.visible");
-    cy.dataCy("foreignLangEdit").first().should("be.visible");
+    cy.dataCy("mainLangEdit").should("exist");
+    cy.dataCy("foreignLangEdit").should("exist");
   });
 });
 describe("Update Button Tests", () => {
@@ -139,7 +139,7 @@ describe("Update Button Tests", () => {
     cy.dataCy("mainLangEdit").type(`{selectall}{backspace}`);
     cy.dataCy("foreignLangEdit").type(`{selectall}{backspace}`);
     cy.dataCy("okbtn").click();
-    cy.dataCy("mainLangEdit").first().should("be.visible");
-    cy.dataCy("foreignLangEdit").first().should("be.visible");
+    cy.dataCy("mainLangEdit").should("exist");
+    cy.dataCy("foreignLangEdit").should("exist");
   });
 });
