@@ -40,14 +40,13 @@ const router = useRouter();
 var jsonData: Array<IWordTestReturn>;
 if (route.query.wordTestReturns != null) {
   jsonData = JSON.parse(route.query.wordTestReturns as string);
-  console.log(jsonData);
 }
 const data = ref<IWordTestResult>({
   wordTestReturns:
     route.query.wordTestReturns != null
       ? JSON.parse(route.query.wordTestReturns as string)
       : Array<IWordTestReturn>,
-  congratulationsText: "🎉 Tebrikler Testi Başarıyla Tamamladınız 🎉",
+  congratulationsText: "🎉 Test Tamamlandı 🎉",
   words: "Kelimeler",
   button: {
     complate: "Tamamla",
