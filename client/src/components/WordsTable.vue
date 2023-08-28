@@ -13,8 +13,8 @@
   </div>
   <div class="word-container">
     <div class="word-header">
-      <div class="word-firstLangHeader">Ana Dil</div>
-      <div class="word-secondLangHeader">Yabancı Dil</div>
+      <div class="word-firstLangHeader">{{data.gridFieldNames.firstField}}</div>
+      <div class="word-secondLangHeader">{{data.gridFieldNames.secondField}}</div>
       <div style="width: 230.81px"></div>
     </div>
     <ul class="word-list" ref="parent">
@@ -107,7 +107,7 @@
         data-testId="noresult"
         v-if="data.wordsList.length == 0"
       >
-        {{ data.errorClasses.noResult }}
+        {{ data.validation.noResult }}
       </li>
     </ul>
   </div>
@@ -142,15 +142,19 @@ var data = ref<IWordTable>({
     ok: "Tamam",
     cancel: "İptal",
   },
+  gridFieldNames: {
+    firstField: "Ana Dil",
+    secondField: "Yabancı Dil",
+  },
   validation: {
     mainLanguage: false,
     mainLanguageText: "Ana Dil'e değer girilmedi",
     foreignLanguage: false,
     foreignLanguageText: "Yabancı Dil'e değer girilmedi",
+    noResult: "Herhangi bir sonuç yok",
   },
   errorClasses: {
     errorBorder: "errorBorder",
-    noResult: "Herhangi bir sonuç yok",
   },
   errors: [],
   isEdit: false,
