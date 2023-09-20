@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
+import { i18n } from "./locales/i18n";
 
 import App from "./App.vue";
 import router from "./router";
@@ -19,5 +20,6 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(createPinia());
 app.use(router);
 app.use(autoAnimatePlugin);
+app.use(i18n);
 
 app.mount("#app");

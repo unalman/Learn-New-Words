@@ -13,7 +13,7 @@
           data-cy="answerText"
           v-model="text"
           class="answerText"
-          :placeholder="data.placeholderText"
+          :placeholder="t('placeholderText')"
         />
       </div>
       <div class="wordTest-btnList">
@@ -21,7 +21,7 @@
           :class="{
             disabledBtn: answerCount != 4 && isAnswered,
           }"
-          :btnName="data.buttonNames.idk"
+          :btnName="t('idk')"
           data-cy="dontKnowBtn"
           v-on:click="dontKnow()"
           :disabled="answerCount != 4 && isAnswered"
@@ -30,18 +30,18 @@
           v-if="answerCount != 4 && !isAnswered"
           v-on:click="updateResult()"
           data-cy="checkBtn"
-          :btnName="data.buttonNames.check"
+          :btnName="t('check')"
         />
         <CustomBtn4
           v-if="answerCount != 4 && isAnswered"
           data-cy="nextBtn"
           v-on:click="nextQuestion()"
-          :btnName="data.buttonNames.continue"
+          :btnName="t('continue')"
         />
         <CustomBtn4
           v-if="answerCount == 4"
           v-on:click="routeResultPage()"
-          :btnName="data.buttonNames.result"
+          :btnName="t('result')"
         />
       </div>
     </div>
@@ -57,8 +57,8 @@
   >
     {{
       isCorrect
-        ? data.correct
-        : `${data.answer}: ${data.languageWords[answerCount].MainLanguage}`
+        ? t("correct")
+        : `${t("correct")}: ${data.languageWords[answerCount].MainLanguage}`
     }}
   </div>
 </template>
@@ -68,6 +68,8 @@ import { ref, type PropType } from "vue";
 import type { IWordTest, IWordTestReturn } from "typings/interface/IWordTest";
 import { useRouter } from "vue-router";
 import type { ILanguageWord } from "typings/interface/ILanguageWord";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const props = defineProps({
   languageData: {
@@ -76,15 +78,6 @@ const props = defineProps({
 });
 const data = ref<IWordTest>({
   languageWords: props.languageData as ILanguageWord[],
-  buttonNames: {
-    check: "Kontrol et",
-    idk: "Bilmiyorum",
-    continue: "Sonraki",
-    result: "Sonuç",
-  },
-  placeholderText: "Cevap",
-  correct: "Doğru",
-  answer: "Cevap",
 });
 var answerCount = 0;
 var isAnswered = ref<Boolean>(false);

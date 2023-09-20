@@ -4,17 +4,17 @@
       <ErrorBlock v-if="showError" :errors="data.errors" />
     </div>
     <div class="word-btn">
-      <CustomBtn3
-        @click="addItem()"
-        data-cy="addbtn"
-        :btnName="data.buttonNames.add"
-      />
+      <CustomBtn3 @click="addItem()" data-cy="addbtn" :btnName="t('add')" />
     </div>
   </div>
   <div class="word-container">
     <div class="word-header">
-      <div class="word-firstLangHeader">{{data.gridFieldNames.firstField}}</div>
-      <div class="word-secondLangHeader">{{data.gridFieldNames.secondField}}</div>
+      <div class="word-firstLangHeader">
+        {{ t("firstField") }}
+      </div>
+      <div class="word-secondLangHeader">
+        {{ t("secondField") }}
+      </div>
       <div style="width: 230.81px"></div>
     </div>
     <ul class="word-list" ref="parent">
@@ -77,28 +77,28 @@
             data-cy="editbtn"
             v-on:click="editMode(item.id)"
             v-if="!data.isEdit || data.selectedId != item.id"
-            :btnName="data.buttonNames.edit"
+            :btnName="t('edit')"
           />
           <CustomBtn2
             class="delete"
             data-cy="deletebtn"
             v-on:click="deleteWord(index)"
             v-if="!data.isEdit || data.selectedId != item.id"
-            :btnName="data.buttonNames.delete"
+            :btnName="t('delete')"
           />
           <CustomBtn2
             class="edit"
             data-cy="okbtn"
             v-on:click="updateWord()"
             v-if="data.isEdit && data.selectedId == item.id"
-            :btnName="data.buttonNames.ok"
+            :btnName="t('ok')"
           />
           <CustomBtn2
             class="delete"
             data-cy="cancelbtn"
             v-on:click="cancelWord(index)"
             v-if="data.isEdit && data.selectedId == item.id"
-            :btnName="data.buttonNames.cancel"
+            :btnName="t('cancel')"
           />
         </div>
       </li>
@@ -107,7 +107,7 @@
         data-testId="noresult"
         v-if="data.wordsList.length == 0"
       >
-        {{ data.validation.noResult }}
+        {{ t("noResult") }}
       </li>
     </ul>
   </div>
@@ -125,6 +125,8 @@ import { getLastId, sortLanguageWordDescending } from "../libs/WordsTable";
 import type { IWordTable } from "typings/interface/IWordTable";
 import type { ILanguageWord } from "typings/interface/ILanguageWord";
 import type { PropType } from "vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const [parent] = useAutoAnimate();
 const props = defineProps({
@@ -133,25 +135,11 @@ const props = defineProps({
   },
 });
 
-var data = ref<IWordTable>({
+const data = ref<IWordTable>({
   wordsList: props.languageData as ILanguageWord[],
-  buttonNames: {
-    add: "Ekle",
-    edit: "Düzenle",
-    delete: "Sil",
-    ok: "Tamam",
-    cancel: "İptal",
-  },
-  gridFieldNames: {
-    firstField: "Ana Dil",
-    secondField: "Yabancı Dil",
-  },
   validation: {
     mainLanguage: false,
-    mainLanguageText: "Ana Dil'e değer girilmedi",
     foreignLanguage: false,
-    foreignLanguageText: "Yabancı Dil'e değer girilmedi",
-    noResult: "Herhangi bir sonuç yok",
   },
   errorClasses: {
     errorBorder: "errorBorder",
@@ -211,12 +199,18 @@ const isValid = (): boolean => {
   ) as HTMLInputElement | null;
   data.value.errors = [];
   if (!textValidationAndTrim(mainLanguageInput?.value as string)) {
-    data.value.errors.push(data.value.validation.mainLanguageText);
+    data.value.errors.push(
+      t("mainLanguageText", { firstField: t("firstField") })
+    );
     data.value.validation.mainLanguage = true;
     isSuccess = false;
   }
   if (!textValidationAndTrim(foreignLanguageInput?.value as string)) {
-    data.value.errors.push(data.value.validation.foreignLanguageText);
+    data.value.errors.push(
+      t("foreignLanguageText", {
+        secondField: t("secondField"),
+      })
+    );
     data.value.validation.foreignLanguage = true;
     isSuccess = false;
   }

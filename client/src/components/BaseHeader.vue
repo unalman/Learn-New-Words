@@ -4,36 +4,57 @@
       <li>
         <CustomBtn5
           data-cy="homeBtn"
-          :btnName="homePage.name"
-          :href="homePage.href"
+          :btnName="t('homePageName')"
+          :href="data.homePage.href"
         />
       </li>
       <li>
-        <CustomBtn5 :btnName="contactPage.name" :href="contactPage.href" />
+        <ul>
+          <li class="li-locales">
+            <div class="locale-changer">
+              <select
+                class="locale"
+                v-model="$i18n.locale"
+                @change="onChange($event)"
+              >
+                <option
+                  v-for="locale in $i18n.availableLocales"
+                  :key="`locale-${locale}`"
+                  :value="locale"
+                >
+                  {{ locale.toUpperCase() }}
+                </option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <CustomBtn5
+              :btnName="t('contactPageName')"
+              :href="data.contactPage.href"
+            />
+          </li>
+        </ul>
       </li>
     </ul>
   </nav>
 </template>
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from "vue";
 import CustomBtn5 from "./buttons/CustomBtn5.vue";
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  component: { CustomBtn5 },
-  data() {
-    return {
-      homePage: {
-        name: "Anasayfa",
-        href: "/",
-      },
-      contactPage: {
-        name: "İletişim",
-        href: "/contact",
-      },
-    };
+import type { IHeaderPageWord } from "typings/interface/IHeaderPageWord";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n({ useScope: "global" });
+const data = ref<IHeaderPageWord>({
+  homePage: {
+    href: "/",
   },
-  components: { CustomBtn5 },
+  contactPage: {
+    href: "/contact",
+  },
 });
+function onChange(event: any) {
+  localStorage.setItem("culture", event.target.value.toLowerCase());
+}
 </script>
 <style scoped>
 @import "../assets/baseHeader.css";

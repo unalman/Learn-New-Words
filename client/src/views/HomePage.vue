@@ -1,39 +1,32 @@
 <template>
   <div class="content-container">
     <div class="content-item1">
-      <div>{{ data.title }}</div>
+      <div>{{ t("homeTitleText") }}</div>
       <div class="content-btnContainer">
-        <CustomBtn1
-          :btnName="data.btnAddWord.name"
-          :href="data.btnAddWord.href"
-        />
+        <CustomBtn1 :btnName="t('addWord')" :href="data.btnAddWord.href" />
       </div>
     </div>
     <div class="content-item2">
-      <div>Kendini test et!</div>
+      <div>{{ t("testYourself") }}</div>
       <div class="content-btnContainer">
-        <CustomBtn1
-          :btnName="data.btnTestWord.name"
-          :href="data.btnTestWord.href"
-        />
+        <CustomBtn1 :btnName="t('wordTest')" :href="data.btnTestWord.href" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IHomePageWords } from "typings/interface/IHomePageWord";
+import type { IHomePageWord } from "typings/interface/IHomePageWord";
 import CustomBtn1 from "../components/buttons/CustomBtn1.vue";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
-var data = ref<IHomePageWords>({
-  title: "Ezberlemek istediğin kelimeleri ekle!",
+var data = ref<IHomePageWord>({
   btnAddWord: {
-    name: "Kelime Ekle",
     href: "/addword",
   },
   btnTestWord: {
-    name: "Kelime Testi",
     href: "/wordtest",
   },
 });

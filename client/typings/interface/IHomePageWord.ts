@@ -1,13 +1,9 @@
-interface IHomePageWords {
-  title: string;
+interface IHomePageWord {
   btnAddWord: {
-    name: string;
     href: string;
   };
   btnTestWord: {
-    name: string;
     href: string;
   };
 }
-
-export type { IHomePageWords };
+export type { IHomePageWord };
