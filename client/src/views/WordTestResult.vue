@@ -2,10 +2,10 @@
   <div class="wordTestResult-container">
     <div class="wordTestResult-ResultContainer">
       <div class="wordTestResult-ResultText">
-        {{ data.congratulationsText }}
+        {{ t("congratulationsText") }}
       </div>
       <div class="wordTestResult-TableContainer">
-        <div class="wordTestResult-WordsListText">{{ data.words }}</div>
+        <div class="wordTestResult-WordsListText">{{ t("words") }}</div>
         <div class="wordTestResult-WordList">
           <div
             class="wordTestResult-WordBox"
@@ -20,10 +20,7 @@
         </div>
       </div>
       <div>
-        <CustomBtn4
-          v-on:click="ReturnAddWordPage()"
-          :btnName="data.button.complate"
-        />
+        <CustomBtn4 v-on:click="ReturnAddWordPage()" :btnName="t('complate')" />
       </div>
     </div>
   </div>
@@ -34,6 +31,8 @@ import type { IWordTestResult } from "typings/interface/IWordTestResult";
 import type { IWordTestReturn } from "typings/interface/IWordTest";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const route = useRoute();
 const router = useRouter();
@@ -46,11 +45,6 @@ const data = ref<IWordTestResult>({
     route.query.wordTestReturns != null
       ? JSON.parse(route.query.wordTestReturns as string)
       : Array<IWordTestReturn>,
-  congratulationsText: "🎉 Test Tamamlandı 🎉",
-  words: "Kelimeler",
-  button: {
-    complate: "Tamamla",
-  },
 });
 function ReturnAddWordPage() {
   router.push({

@@ -1,6 +1,6 @@
 <template>
   <div class="addword-container">
-    <div class="word-item-1">Kelimeler</div>
+    <div class="word-item-1">{{t("words")}}</div>
     <div class="word-item-2">
       <WordsTable :languageData="list" />
     </div>
@@ -9,6 +9,8 @@
 <script setup lang="ts">
 import WordsTable from "@/components/WordsTable.vue";
 import { useLangueageWordStore } from "@/stores/LanguageWord";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const langWordStore = useLangueageWordStore();
 const list = langWordStore.list;
