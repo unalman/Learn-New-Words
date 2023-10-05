@@ -19,12 +19,12 @@
       <div class="wordTest-btnList">
         <CustomBtn4
           :class="{
-            disabledBtn: answerCount != 4 && isAnswered,
+            disabledBtn: isAnswered,
           }"
           :btnName="t('idk')"
           data-cy="dontKnowBtn"
           v-on:click="dontKnow()"
-          :disabled="answerCount != 4 && isAnswered"
+          :disabled="isAnswered"
         />
         <CustomBtn4
           v-if="answerCount != 4 && !isAnswered"

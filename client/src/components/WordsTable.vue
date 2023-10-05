@@ -199,18 +199,12 @@ const isValid = (): boolean => {
   ) as HTMLInputElement | null;
   data.value.errors = [];
   if (!textValidationAndTrim(mainLanguageInput?.value as string)) {
-    data.value.errors.push(
-      t("mainLanguageText", { firstField: t("firstField") })
-    );
+    data.value.errors.push("mainLanguageText");
     data.value.validation.mainLanguage = true;
     isSuccess = false;
   }
   if (!textValidationAndTrim(foreignLanguageInput?.value as string)) {
-    data.value.errors.push(
-      t("foreignLanguageText", {
-        secondField: t("secondField"),
-      })
-    );
+    data.value.errors.push("foreignLanguageText");
     data.value.validation.foreignLanguage = true;
     isSuccess = false;
   }

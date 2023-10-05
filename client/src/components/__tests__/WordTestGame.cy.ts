@@ -40,6 +40,18 @@ describe("'I Don't Know' Button Tests", () => {
     cy.dataCy("dontKnowBtn").click();
     cy.dataCy("nextBtn").should("exist");
   });
+  it("The last question after, we will be see the button disabled", () => {
+    cy.dataCy("dontKnowBtn").click();//1 question
+    cy.dataCy("nextBtn").click()
+    cy.dataCy("dontKnowBtn").click();//2 question
+    cy.dataCy("nextBtn").click()
+    cy.dataCy("dontKnowBtn").click();//3 question
+    cy.dataCy("nextBtn").click()
+    cy.dataCy("dontKnowBtn").click();//4 question
+    cy.dataCy("nextBtn").click()
+    cy.dataCy("dontKnowBtn").click();//5 question
+    cy.dataCy("dontKnowBtn").should("be.disabled");
+  });
 });
 describe("'Check' Button Tests", () => {
   it("If answer input is empty and clicking the 'Check' button, doesn't change button visibility", () => {

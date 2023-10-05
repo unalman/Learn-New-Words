@@ -5,6 +5,7 @@ import CustomBtn3 from "../buttons/CustomBtn3.vue";
 import ErrorBlock from "../ErrorBlock.vue";
 import type { ILanguageWord } from "../../../typings/interface/ILanguageWord";
 
+
 beforeEach(() => {
   cy.mount(WordsTable, {
     props: {
