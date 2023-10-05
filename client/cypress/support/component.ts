@@ -22,10 +22,11 @@ import "./commands.js";
 //#region General
 import { mount } from "cypress/vue";
 //import {} from "../../src/assets/base.css";
-import "../../src/setup.ts";
+import "../../src/setup.js";
 //#endregion
 //#region WordsTable Component
-import "@formkit/auto-animate/vue";
+//import "@formkit/auto-animate/vue";
+import { i18n } from "../../src/locales/i18n.js";
 //#endregion
 
 // Augment the Cypress namespace to include type definitions for
@@ -39,5 +40,19 @@ declare global {
     }
   }
 }
+Cypress.Commands.add('mount', (component, options = {}) => {
+  // Setup options object
+  options.global = options.global || {}
+  options.global.stubs = options.global.stubs || {}
+  options.global.components = options.global.components || {}
+  options.global.plugins = options.global.plugins || []
 
-Cypress.Commands.add("mount", mount);
+  // Use store passed in from options, or initialize a new one
+  const {/* store = getStore(), */ ...mountOptions} = options
+
+  // Add plugins here
+  options.global.plugins.push(i18n)
+
+  return mount(component, mountOptions)
+})
+//Cypress.Commands.add("mount", mount);

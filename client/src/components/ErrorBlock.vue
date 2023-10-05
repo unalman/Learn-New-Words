@@ -8,19 +8,24 @@
     </div>
     <div>
       <ul class="errorBlock-ul">
-        <li v-for="item in errors" :key="item">
-          {{ item }}
+        <li v-for="item in props.errors" :key="item">
+          {{ t(item) }}
         </li>
       </ul>
     </div>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
-export default defineComponent({
-  props: { errors: Array as () => string[] },
+const props = defineProps({
+  errors: Array as () => string[],
 });
+
+// export default defineComponent({
+//   props: { errors: Array as () => string[] },
+// });
 </script>
 <style>
 @import "../assets/errorBlock.css";

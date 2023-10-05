@@ -5,6 +5,7 @@ import router from "./router";
 import { createApp } from "vue";
 import App from "./App.vue";
 import { autoAnimatePlugin } from "@formkit/auto-animate/vue";
+import { i18n } from "./locales/i18n";
 
 /* import the fontawesome core */
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -29,6 +30,7 @@ export const createAppProcess = () => {
   app.use(createRouter());
   app.component("font-awesome-icon", FontAwesomeIcon);
   app.use(autoAnimatePlugin);
-  //app.mount("#app");
+  app.use(i18n);
+  app.mount("#app");
   return app;
 };

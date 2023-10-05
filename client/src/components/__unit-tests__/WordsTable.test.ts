@@ -1,11 +1,17 @@
 /**
  * @vitest-environment happy-dom
  */
-import { describe, expect, it } from "vitest";
-import { mount } from "@vue/test-utils";
+import { describe, expect, it, vi } from "vitest";
+import { mount, config } from "@vue/test-utils";
 import { getLastId, sortLanguageWordDescending } from "../../libs/WordsTable";
 import WordsTable from "../../components/WordsTable.vue";
 import type { ILanguageWord } from "typings/interface/ILanguageWord";
+import { i18n } from "../../locales/i18n";
+
+config.global.plugins = [i18n];
+config.global.mocks = {
+  $t: (tKey: any) => tKey, // just return translation key
+};
 
 describe("WordsTable rendering", () => {
   it("render grid correctly", async () => {
