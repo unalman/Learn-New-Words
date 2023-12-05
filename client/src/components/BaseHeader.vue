@@ -13,6 +13,7 @@
           <li class="li-locales">
             <div class="locale-changer">
               <select
+                data-cy="locales-select"
                 class="locale"
                 v-model="$i18n.locale"
                 @change="onChange($event)"
@@ -29,6 +30,7 @@
           </li>
           <li>
             <CustomBtn5
+              data-cy="contactBtn"
               :btnName="t('contactPageName')"
               :href="data.contactPage.href"
             />

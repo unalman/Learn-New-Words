@@ -40,6 +40,9 @@ export {};
 Cypress.Commands.add("dataCy", (value) => {
   return cy.get(`[data-cy=${value}]`);
 });
+Cypress.Commands.add('dataTest', (selector, ...args) => {
+  return cy.get(`[data-testId=${selector}]`, ...args)
+})
 
 declare global {
   namespace Cypress {
@@ -49,6 +52,7 @@ declare global {
        * @example cy.dataCy('greeting')
        */
       dataCy(value: string): Chainable<JQuery<HTMLElement>>;
+      dataTest(value: string): Chainable<JQuery<HTMLElement>>;
     }
   }
 }

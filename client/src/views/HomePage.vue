@@ -3,13 +3,13 @@
     <div class="content-item1">
       <div>{{ t("homeTitleText") }}</div>
       <div class="content-btnContainer">
-        <CustomBtn1 :btnName="t('addWord')" :href="data.btnAddWord.href" />
+        <CustomBtn1 data-cy="addWord" :btnName="t('addWord')" :href="data.btnAddWord.href" />
       </div>
     </div>
     <div class="content-item2">
       <div>{{ t("testYourself") }}</div>
       <div class="content-btnContainer">
-        <CustomBtn1 :btnName="t('wordTest')" :href="data.btnTestWord.href" />
+        <CustomBtn1 data-cy="wordTest" :btnName="t('wordTest')" :href="data.btnTestWord.href" />
       </div>
     </div>
   </div>
