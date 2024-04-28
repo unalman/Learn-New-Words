@@ -29,7 +29,7 @@ type Word struct {
 	Foreign_language string    `json:"foreign_language"`
 }
 
-// PostgreSql connect with this method
+// PostgreSql connect
 func CreatePostgreSqlConnection() (*PostgreSqlInfo, error) {
 	postgresqlDbInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable",
@@ -49,6 +49,7 @@ func CreatePostgreSqlConnection() (*PostgreSqlInfo, error) {
 	}, nil
 }
 
+// Inserting the Word model to the Word table
 func (s *PostgreSqlInfo) CreateWord(mainlanguage, foreignLanguage string) (*Word, error) {
 	word := NewWordMapper(mainlanguage, foreignLanguage)
 	rows, err := s.db.Query("INSERT INTO word (main_language, foreign_language, created_at) VALUES ($1, $2, $3) RETURNING id",
@@ -67,6 +68,8 @@ func (s *PostgreSqlInfo) CreateWord(mainlanguage, foreignLanguage string) (*Word
 	word.Id = id
 	return word, err
 }
+
+// Get a row from Word table
 func (s *PostgreSqlInfo) GetWordById(id int) (*Word, error) {
 	rows, err := s.db.Query("SELECT * FROM word WHERE id = $1", id)
 	if err != nil {
@@ -80,6 +83,8 @@ func (s *PostgreSqlInfo) GetWordById(id int) (*Word, error) {
 
 	return nil, fmt.Errorf("id %s does not exist", strconv.Itoa(id))
 }
+
+// Get row list from Word table
 func (s *PostgreSqlInfo) GetListWord() ([]*Word, error) {
 	rows, err := s.db.Query("SELECT * FROM word")
 	if err != nil {
@@ -96,6 +101,8 @@ func (s *PostgreSqlInfo) GetListWord() ([]*Word, error) {
 	defer rows.Close()
 	return words, err
 }
+
+// Update a row from Word table
 func (s *PostgreSqlInfo) UpdateWord(word *Word) error {
 	_, err := s.db.Query("UPDATE word SET main_language=$1, foreign_language=$2 WHERE id=$3", word.Main_language, word.Foreign_language, word.Id)
 	if err != nil {
@@ -103,6 +110,8 @@ func (s *PostgreSqlInfo) UpdateWord(word *Word) error {
 	}
 	return nil
 }
+
+// Deleting a row from Word table
 func (s *PostgreSqlInfo) DeleteWord(id int) error {
 	res, err := s.db.Exec("DELETE FROM word WHERE id=$1", id)
 	if err != nil {
@@ -117,6 +126,8 @@ func (s *PostgreSqlInfo) DeleteWord(id int) error {
 	}
 	return err
 }
+
+// Existance control in the Word table
 func (s *PostgreSqlInfo) ExistsWord(id int) (bool, error) {
 	var isExists bool
 	rows, err := s.db.Query("SELECT exists (SELECT 1 FROM word WHERE id=$1 LIMIT 1)", id)
@@ -131,6 +142,7 @@ func (s *PostgreSqlInfo) ExistsWord(id int) (bool, error) {
 	return isExists, nil
 }
 
+// Word model mapping with SQL response
 func scanIntoWord(rows *sql.Rows) (*Word, error) {
 	word := new(Word)
 	err := rows.Scan(
@@ -141,7 +153,7 @@ func scanIntoWord(rows *sql.Rows) (*Word, error) {
 	return word, err
 }
 
-// Word model is filling with parameters
+// Word model is mapping with parameters
 func NewWordMapper(mainlanguage, foreignLanguage string) *Word {
 	return &Word{
 		Created_at:       time.Now().UTC(),
