@@ -9,7 +9,7 @@ import (
 
 func main() {
 	getEnv()
-
+	//fmt.Println(time.Now().UTC().Format(time.DateTime))
 	store, err := CreatePostgreSqlConnection()
 	if err != nil {
 		log.Fatal(err)

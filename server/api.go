@@ -19,12 +19,15 @@ type APIServer struct {
 	store      Storage
 }
 
+// Return APIServer model
 func NewApiServer(listenAddr string, storage Storage) *APIServer {
 	return &APIServer{
 		listenAddr: listenAddr,
 		store:      storage,
 	}
 }
+
+// API routers
 func (s *APIServer) Run() {
 	router := gin.Default()
 	router.GET("/words", s.GetWords)
@@ -36,6 +39,7 @@ func (s *APIServer) Run() {
 	router.Run(s.listenAddr)
 }
 
+// Get Word List model
 func (s *APIServer) GetWords(c *gin.Context) {
 	var responseModel ResponseModel[[]*Word]
 	word, err := s.store.GetListWord()
@@ -47,6 +51,8 @@ func (s *APIServer) GetWords(c *gin.Context) {
 	responseModel.Data = word
 	c.IndentedJSON(http.StatusOK, responseModel)
 }
+
+// Get Word model
 func (s *APIServer) GetWord(c *gin.Context) {
 	var responseModel ResponseModel[*Word]
 	id, err := getId(c)
@@ -64,6 +70,8 @@ func (s *APIServer) GetWord(c *gin.Context) {
 	responseModel.Data = word
 	c.IndentedJSON(http.StatusOK, responseModel)
 }
+
+// Insert Word model
 func (s *APIServer) PostWord(c *gin.Context) {
 	var responseModel ResponseModel[*Word]
 
@@ -83,6 +91,8 @@ func (s *APIServer) PostWord(c *gin.Context) {
 	responseModel.Data = newWord
 	c.IndentedJSON(http.StatusOK, responseModel)
 }
+
+// Update a Word model
 func (s *APIServer) UpdateWord(c *gin.Context) {
 	var responseModel ResponseModel[*Word]
 
@@ -92,7 +102,7 @@ func (s *APIServer) UpdateWord(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, responseModel)
 		return
 	}
-	err = s.checkIdIsExist(word)
+	err = s.checkIdExistance(word)
 	if err != nil {
 		responseModel.Error = err.Error()
 		c.IndentedJSON(http.StatusNotFound, responseModel)
@@ -106,6 +116,8 @@ func (s *APIServer) UpdateWord(c *gin.Context) {
 	}
 	c.IndentedJSON(http.StatusOK, responseModel)
 }
+
+// Delete a row from Word table
 func (s *APIServer) DeleteWord(c *gin.Context) {
 	var responseModel ResponseModel[*Word]
 	id, err := getId(c)
@@ -123,9 +135,7 @@ func (s *APIServer) DeleteWord(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, responseModel)
 }
 
-func checkWordValidation(value string) bool {
-	return len(strings.TrimSpace(value)) == 0
-}
+// Parsing id string to int
 func getId(c *gin.Context) (int, error) {
 	idString := c.Param("id")
 	id, err := strconv.Atoi(idString)
@@ -134,6 +144,8 @@ func getId(c *gin.Context) (int, error) {
 	}
 	return id, nil
 }
+
+// Word model fields validation function
 func checkWordTextValidation(c *gin.Context) (*Word, error) {
 	var word *Word
 	c.BindJSON(&word)
@@ -145,7 +157,14 @@ func checkWordTextValidation(c *gin.Context) (*Word, error) {
 	}
 	return word, nil
 }
-func (s *APIServer) checkIdIsExist(word *Word) error {
+
+// string validation funtion
+func checkWordValidation(value string) bool {
+	return len(strings.TrimSpace(value)) == 0
+}
+
+// Checking id existance at the word table
+func (s *APIServer) checkIdExistance(word *Word) error {
 	isExists, err := s.store.ExistsWord(word.Id)
 	if err != nil {
 		return err
