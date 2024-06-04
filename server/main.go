@@ -9,7 +9,6 @@ import (
 
 func main() {
 	getEnv()
-	//fmt.Println(time.Now().UTC().Format(time.DateTime))
 	store, err := CreatePostgreSqlConnection()
 	if err != nil {
 		log.Fatal(err)
@@ -18,6 +17,7 @@ func main() {
 	server.Run()
 }
 
+// this method load environment variables
 func getEnv() {
 	env := os.Getenv("APP_ENV")
 	if env == "" || env == "dev" {
