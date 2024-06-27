@@ -14,7 +14,14 @@ func main() {
 		log.Fatal(err)
 	}
 	server := NewApiServer(os.Getenv("API_HOST")+":"+os.Getenv("API_PORT"), store)
-	server.Run()
+	router := server.SetupRouter()
+	router = GetWords(server, router)
+	router = GetWord(server, router)
+	router = PostWord(server, router)
+	router = UpdateWord(server, router)
+	router = DeleteWord(server, router)
+
+	router.Run(server.listenAddr)
 }
 
 // this method load environment variables

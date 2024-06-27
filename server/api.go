@@ -28,116 +28,128 @@ func NewApiServer(listenAddr string, storage Storage) *APIServer {
 }
 
 // API routers
-func (s *APIServer) Run() {
+func (s *APIServer) SetupRouter() *gin.Engine {
 	router := gin.Default()
-	router.GET("/words", s.GetWords)
-	router.GET("/words/:id", s.GetWord)
-	router.POST("/words", s.PostWord)
-	router.PUT("/words", s.UpdateWord)
-	router.DELETE("/words/:id", s.DeleteWord)
-
-	router.Run(s.listenAddr)
+	return router
 }
 
 // Get Word List model
-func (s *APIServer) GetWords(c *gin.Context) {
-	var responseModel ResponseModel[[]*Word]
-	word, err := s.store.GetListWord()
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusNotFound, responseModel)
-		return
-	}
-	responseModel.Data = word
-	c.IndentedJSON(http.StatusOK, responseModel)
+func GetWords(s *APIServer, r *gin.Engine) *gin.Engine {
+	r.GET("/words", func(c *gin.Context) {
+		var responseModel ResponseModel[[]*Word]
+		word, err := s.store.GetListWord()
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusNotFound, responseModel)
+			return
+		}
+		responseModel.Data = word
+		c.IndentedJSON(http.StatusOK, responseModel)
+	})
+	return r
 }
 
 // Get Word model
-func (s *APIServer) GetWord(c *gin.Context) {
-	var responseModel ResponseModel[*Word]
-	id, err := getId(c)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusBadRequest, responseModel)
-		return
-	}
-	word, err := s.store.GetWordById(id)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusNotFound, responseModel)
-		return
-	}
-	responseModel.Data = word
-	c.IndentedJSON(http.StatusOK, responseModel)
+func GetWord(s *APIServer, r *gin.Engine) *gin.Engine {
+	r.GET("/words/:id", func(c *gin.Context) {
+		var responseModel ResponseModel[*Word]
+		idString := c.Param("id")
+		id, err := getId(idString)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusBadRequest, responseModel)
+			return
+		}
+		word, err := s.store.GetWordById(id)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusNotFound, responseModel)
+			return
+		}
+		responseModel.Data = word
+		c.IndentedJSON(http.StatusOK, responseModel)
+	})
+	return r
 }
 
 // Insert Word model
-func (s *APIServer) PostWord(c *gin.Context) {
-	var responseModel ResponseModel[*Word]
+func PostWord(s *APIServer, r *gin.Engine) *gin.Engine {
+	r.POST("/words", func(c *gin.Context) {
+		var responseModel ResponseModel[*Word]
+		var word *Word
+		c.BindJSON(&word)
+		err := checkWordTextValidation(word)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusBadRequest, responseModel)
+			return
+		}
 
-	word, err := checkWordTextValidation(c)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusBadRequest, responseModel)
-		return
-	}
-
-	newWord, err := s.store.CreateWord(word.Main_language, word.Foreign_language)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusNotFound, responseModel)
-		return
-	}
-	responseModel.Data = newWord
-	c.IndentedJSON(http.StatusOK, responseModel)
+		newWord, err := s.store.CreateWord(word.Main_language, word.Foreign_language)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusNotFound, responseModel)
+			return
+		}
+		responseModel.Data = newWord
+		c.IndentedJSON(http.StatusOK, responseModel)
+	})
+	return r
 }
 
 // Update a Word model
-func (s *APIServer) UpdateWord(c *gin.Context) {
-	var responseModel ResponseModel[*Word]
-
-	word, err := checkWordTextValidation(c)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusBadRequest, responseModel)
-		return
-	}
-	err = s.checkIdExistance(word)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusNotFound, responseModel)
-		return
-	}
-	err = s.store.UpdateWord(word)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusNotFound, responseModel)
-		return
-	}
-	c.IndentedJSON(http.StatusOK, responseModel)
+func UpdateWord(s *APIServer, r *gin.Engine) *gin.Engine {
+	r.PUT("/words", func(c *gin.Context) {
+		var responseModel ResponseModel[*Word]
+		var word *Word
+		c.BindJSON(&word)
+		err := checkWordTextValidation(word)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusBadRequest, responseModel)
+			return
+		}
+		err = s.checkIdExistance(word)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusNotFound, responseModel)
+			return
+		}
+		err = s.store.UpdateWord(word)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusNotFound, responseModel)
+			return
+		}
+		c.IndentedJSON(http.StatusOK, responseModel)
+	})
+	return r
 }
 
 // Delete a row from Word table
-func (s *APIServer) DeleteWord(c *gin.Context) {
-	var responseModel ResponseModel[*Word]
-	id, err := getId(c)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusBadRequest, responseModel)
-		return
-	}
-	err = s.store.DeleteWord(id)
-	if err != nil {
-		responseModel.Error = err.Error()
-		c.IndentedJSON(http.StatusNotFound, responseModel)
-		return
-	}
-	c.IndentedJSON(http.StatusOK, responseModel)
+func DeleteWord(s *APIServer, r *gin.Engine) *gin.Engine {
+	r.DELETE("/words/:id", func(c *gin.Context) {
+		var responseModel ResponseModel[*Word]
+		idString := c.Param("id")
+		id, err := getId(idString)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusBadRequest, responseModel)
+			return
+		}
+		err = s.store.DeleteWord(id)
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusNotFound, responseModel)
+			return
+		}
+		c.IndentedJSON(http.StatusOK, responseModel)
+	})
+	return r
 }
 
 // Parsing id string to int
-func getId(c *gin.Context) (int, error) {
-	idString := c.Param("id")
+func getId(idString string) (int, error) {
 	id, err := strconv.Atoi(idString)
 	if err != nil {
 		return id, fmt.Errorf("invalid id is given %s", idString)
@@ -146,16 +158,14 @@ func getId(c *gin.Context) (int, error) {
 }
 
 // Word model fields validation function
-func checkWordTextValidation(c *gin.Context) (*Word, error) {
-	var word *Word
-	c.BindJSON(&word)
+func checkWordTextValidation(word *Word) error {
 	if checkWordValidation(word.Main_language) {
-		return nil, fmt.Errorf("main language is null")
+		return fmt.Errorf("main language is empty")
 	}
 	if checkWordValidation(word.Foreign_language) {
-		return nil, fmt.Errorf("foreign language is null")
+		return fmt.Errorf("foreign language is empty")
 	}
-	return word, nil
+	return nil
 }
 
 // string validation funtion

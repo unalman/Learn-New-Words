@@ -60,7 +60,6 @@ func TestCreateWord(t *testing.T) {
 	}()
 
 	rows := sqlmock.NewRows([]string{"id"}).AddRow(w.Id)
-
 	query := "INSERT INTO word (main_language, foreign_language, created_at) VALUES ($1, $2, $3) RETURNING id"
 	mock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(w.Main_language, w.Foreign_language, AnyTime{}).WillReturnRows(rows)
 
@@ -228,9 +227,8 @@ func TestExistsWordFailed(t *testing.T) {
 		s.db.Close()
 	}()
 	query := "SELECT exists (SELECT 1 FROM word WHERE id=$1 LIMIT 1)"
-	mock.ExpectExec(regexp.QuoteMeta(query)).WithArgs(w.Id).WillReturnResult(sqlmock.NewResult(0, 0))
+	mock.ExpectQuery(regexp.QuoteMeta(query)).WithArgs(w.Id).WillReturnError(sql.ErrConnDone)
 
-	isExists, err := s.ExistsWord(w.Id)
-	assert.Error(t, err)
-	assert.False(t, isExists)
+	_, err := s.ExistsWord(w.Id)
+	assert.Equal(t, sql.ErrConnDone, err)
 }
