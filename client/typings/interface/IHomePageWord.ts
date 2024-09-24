@@ -1,9 +1,11 @@
-interface IHomePageWord {
+interface IHomePageVM {
   btnAddWord: {
     href: string;
   };
   btnTestWord: {
-    href: string;
+    name: string;
+    isDisabled: boolean;
   };
+  error: string[];
 }
-export type { IHomePageWord };
+export type { IHomePageVM };

@@ -5,7 +5,7 @@
   >
     <div class="wordTest-mainItem">
       <div data-cy="wordTestQuestion" class="wordTest-Question">
-        {{ data.languageWords[answerCount].ForeignLanguage }}
+        {{ languageWordStore.randomWords[answerCount]?.ForeignLanguage }}
       </div>
       <div class="wordTest-Answer">
         <input
@@ -58,47 +58,46 @@
     {{
       isCorrect
         ? t("correct")
-        : `${t("correct")}: ${data.languageWords[answerCount].MainLanguage}`
+        : `${t("correct")}: ${
+            languageWordStore.randomWords[answerCount]?.MainLanguage
+          }`
     }}
   </div>
 </template>
 <script setup lang="ts">
 import CustomBtn4 from "../components/buttons/CustomBtn4.vue";
-import { ref, type PropType } from "vue";
-import type { IWordTest, IWordTestReturn } from "typings/interface/IWordTest";
+import { ref } from "vue";
+import type { IWordTestReturn } from "typings/interface/IWordTest";
 import { useRouter } from "vue-router";
-import type { ILanguageWord } from "typings/interface/ILanguageWord";
 import { useI18n } from "vue-i18n";
+import { useLanguageWordStore } from "@/store";
 const { t } = useI18n();
 
-const props = defineProps({
-  languageData: {
-    type: Array as PropType<ILanguageWord[]>,
-  },
-});
-const data = ref<IWordTest>({
-  languageWords: props.languageData as ILanguageWord[],
-});
+const languageWordStore = useLanguageWordStore();
+
 var answerCount = 0;
 var isAnswered = ref<Boolean>(false);
 var isCorrect = ref<Boolean>(false);
 
 var wordTestReturns = Array<IWordTestReturn>();
 const text = ref<string>("");
+
 const updateResult = () => {
-  if (answerCount != 4 && text.value.trim() != "") {
+  if (answerCount != parseInt(import.meta.env.VITE_Word_Test_Count) && text.value.trim() != "") {
     isCorrect.value = false;
     if (
-      data.value.languageWords[answerCount].MainLanguage.toLowerCase() ==
+      languageWordStore.randomWords[answerCount].MainLanguage.toLowerCase() ==
       text.value.toLowerCase()
     ) {
       isCorrect.value = true;
     }
     var wordTestReturn: IWordTestReturn = {
-      id: data.value.languageWords[answerCount].id,
-      MainLanguage: data.value.languageWords[answerCount].MainLanguage,
-      ForeignLanguage: data.value.languageWords[answerCount].ForeignLanguage,
+      id: languageWordStore.randomWords[answerCount].id,
+      MainLanguage: languageWordStore.randomWords[answerCount].MainLanguage,
+      ForeignLanguage:
+        languageWordStore.randomWords[answerCount].ForeignLanguage,
       isCorrectAnswer: isCorrect.value,
+      created_at: new Date(),
     };
     wordTestReturns.push(wordTestReturn);
     isAnswered.value = true;
@@ -108,10 +107,11 @@ const dontKnow = () => {
   isCorrect.value = false;
   isAnswered.value = true;
   var wordTestReturn: IWordTestReturn = {
-    id: data.value.languageWords[answerCount].id,
-    MainLanguage: data.value.languageWords[answerCount].MainLanguage,
-    ForeignLanguage: data.value.languageWords[answerCount].ForeignLanguage,
+    id: languageWordStore.randomWords[answerCount].id,
+    MainLanguage: languageWordStore.randomWords[answerCount].MainLanguage,
+    ForeignLanguage: languageWordStore.randomWords[answerCount].ForeignLanguage,
     isCorrectAnswer: isCorrect.value,
+    created_at: new Date(),
   };
   wordTestReturns.push(wordTestReturn);
 };

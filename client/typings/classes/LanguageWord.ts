@@ -4,9 +4,10 @@ export default class LanguageWord implements ILanguageWord {
   id: string;
   MainLanguage: string;
   ForeignLanguage: string;
-  public static createInstance(id: string): LanguageWord {
+  created_at: Date;
+  public static createInstance(): LanguageWord {
     const instance = new LanguageWord();
-    instance.id = id;
+    instance.id = "new";
     return instance;
   }
 }

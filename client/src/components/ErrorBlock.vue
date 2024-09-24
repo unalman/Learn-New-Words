@@ -23,9 +23,6 @@ const props = defineProps({
   errors: Array as () => string[],
 });
 
-// export default defineComponent({
-//   props: { errors: Array as () => string[] },
-// });
 </script>
 <style>
 @import "../assets/errorBlock.css";

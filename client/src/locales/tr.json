@@ -24,5 +24,6 @@
     "addWord": "Kelimeler Ekle",
     "wordTest": "Kelime Testi",
     "homeTitleText": "Ezberlemek istediğin kelimeleri ekle!",
-    "testYourself": "Kendini test et!"
+    "testYourself": "Kendini test et!",
+    "minimumFiveWord": "Test için en az 5 eklemelisiniz!"
 }

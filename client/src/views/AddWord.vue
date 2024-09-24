@@ -1,19 +1,24 @@
 <template>
   <div class="addword-container">
-    <div class="word-item-1">{{t("words")}}</div>
+    <div class="word-item-1">{{ t("words") }}</div>
     <div class="word-item-2">
-      <WordsTable :languageData="list" />
+      <WordsTable/>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import WordsTable from "@/components/WordsTable.vue";
-import { useLangueageWordStore } from "@/stores/LanguageWord";
+import { useLanguageWordStore } from "@/store";
+import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
-
-const langWordStore = useLangueageWordStore();
-const list = langWordStore.list;
+const languageWordStore = useLanguageWordStore();
+onMounted(async () => {
+  const { success, error } = await languageWordStore.dispatchGetLanguageWords();
+  if (!success) {
+    console.log(error);
+  }
+});
 </script>
 <style scoped>
 .addword-container {
