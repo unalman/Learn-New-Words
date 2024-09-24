@@ -14,6 +14,7 @@ type Storage interface {
 	CreateWord(mainlanguage, foreignLanguage string) (*Word, error)
 	GetWordById(id int) (*Word, error)
 	GetListWord() ([]*Word, error)
+	GetRandomListWord() ([]*Word, error)
 	UpdateWord(word *Word) error
 	DeleteWord(id int) error
 	ExistsWord(id int) (bool, error)
@@ -25,8 +26,8 @@ type PostgreSqlInfo struct {
 type Word struct {
 	Id               int       `json:"id"`
 	Created_at       time.Time `json:"created_at"`
-	Main_language    string    `json:"main_language"`
-	Foreign_language string    `json:"foreign_language"`
+	Main_language    string    `json:"MainLanguage"`
+	Foreign_language string    `json:"ForeignLanguage"`
 }
 
 // PostgreSql connect
@@ -87,6 +88,24 @@ func (s *PostgreSqlInfo) GetWordById(id int) (*Word, error) {
 // Get row list from Word table
 func (s *PostgreSqlInfo) GetListWord() ([]*Word, error) {
 	rows, err := s.db.Query("SELECT * FROM word")
+	if err != nil {
+		return nil, err
+	}
+	words := []*Word{}
+	for rows.Next() {
+		newWord, err := scanIntoWord(rows)
+		if err != nil {
+			return nil, err
+		}
+		words = append(words, newWord)
+	}
+	defer rows.Close()
+	return words, err
+}
+
+// Get Random list from Word table
+func (s *PostgreSqlInfo) GetRandomListWord() ([]*Word, error) {
+	rows, err := s.db.Query("SELECT * FROM word ORDER BY RANDOM() LIMIT 5")
 	if err != nil {
 		return nil, err
 	}

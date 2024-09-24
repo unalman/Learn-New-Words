@@ -1,9 +1,6 @@
 <template>
-  <WordTestGame :languageData="langWordStore.list" />
+  <WordTestGame/>
 </template>
 <script setup lang="ts">
 import WordTestGame from "../components/WordTestGame.vue";
-import { useLangueageWordStore } from "@/stores/LanguageWord";
-
-const langWordStore = useLangueageWordStore();
 </script>

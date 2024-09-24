@@ -4,5 +4,9 @@
   "compilerOptions": {
     "types": ["node"],
     "ignoreDeprecations": "5.0",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@typings": ["./typings/*"]
+    }
   }
 }

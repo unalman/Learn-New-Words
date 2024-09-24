@@ -17,8 +17,8 @@ library.add(faTriangleExclamation);
 
 const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
-app.use(createPinia());
 app.use(router);
+app.use(createPinia());
 app.use(autoAnimatePlugin);
 app.use(i18n);
 

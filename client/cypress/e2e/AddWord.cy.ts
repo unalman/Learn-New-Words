@@ -37,4 +37,11 @@ describe("AddWord Page Tests", () => {
     cy.dataCy("okbtn").should("not.exist");
     cy.dataCy("cancelbtn").should("not.exist");
   });
+  it("When clicking the Delete button, this field should be delete", () => {
+    cy.dataCy("editbtn").eq(0).click();
+    cy.dataCy("mainLangEdit").should("be.visible");
+    cy.dataCy("foreignLangEdit").should("be.visible");
+    cy.dataCy("okbtn").should("be.visible");
+    cy.dataCy("cancelbtn").should("be.visible");
+  });
 });

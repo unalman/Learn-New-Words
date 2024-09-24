@@ -24,5 +24,6 @@
     "addWord": "Add Words",
     "wordTest": "Word Test",
     "homeTitleText": "Add the words you want to memorize!",
-    "testYourself": "Test Yourself!"
+    "testYourself": "Test Yourself!",
+    "minimumFiveWord": "You must add minimum 5 word for test"
 }

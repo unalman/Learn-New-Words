@@ -82,14 +82,14 @@
           <CustomBtn2
             class="delete"
             data-cy="deletebtn"
-            v-on:click="deleteWord(index)"
+            v-on:click="languageWordStore.dispatchDeleteWord(item.id)"
             v-if="!data.isEdit || data.selectedId != item.id"
             :btnName="t('delete')"
           />
           <CustomBtn2
             class="edit"
             data-cy="okbtn"
-            v-on:click="updateWord()"
+            v-on:click="updateWord(item.id)"
             v-if="data.isEdit && data.selectedId == item.id"
             :btnName="t('ok')"
           />
@@ -105,7 +105,7 @@
       <li
         class="word-list-noresult"
         data-testId="noresult"
-        v-if="data.wordsList.length == 0"
+        v-if="languageWordStore.words.length == 0"
       >
         {{ t("noResult") }}
       </li>
@@ -120,23 +120,18 @@ import CustomBtn3 from "./buttons/CustomBtn3.vue";
 import ErrorBlock from "./ErrorBlock.vue";
 import LanguageWord from "../../typings/classes/LanguageWord";
 import { textValidationAndTrim } from "../libs/common";
-import { getLastId, sortLanguageWordDescending } from "../libs/WordsTable";
+import { sortLanguageWordDescending } from "../libs/WordsTable";
 
 import type { IWordTable } from "typings/interface/IWordTable";
 import type { ILanguageWord } from "typings/interface/ILanguageWord";
-import type { PropType } from "vue";
+import { useLanguageWordStore } from "@/store";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 const [parent] = useAutoAnimate();
-const props = defineProps({
-  languageData: {
-    type: Array as PropType<ILanguageWord[]>,
-  },
-});
+const languageWordStore = useLanguageWordStore();
 
 const data = ref<IWordTable>({
-  wordsList: props.languageData as ILanguageWord[],
   validation: {
     mainLanguage: false,
     foreignLanguage: false,
@@ -152,15 +147,16 @@ const data = ref<IWordTable>({
     id: "",
     MainLanguage: "",
     ForeignLanguage: "",
+    created_at: new Date(),
   },
 });
 
 const addItem = (): void => {
   if (data.value.isEdit) return;
   data.value.newItem = true;
-  var lang = createNewLangWord(data.value.wordsList as ILanguageWord[]);
-  (data.value.wordsList as ILanguageWord[]).unshift(lang);
-  editMode(lang.id);
+  var newObj = LanguageWord.createInstance();
+  languageWordStore.words.unshift(newObj);
+  editMode(newObj.id);
 };
 const editMode = (id: string): void => {
   if (data.value.isEdit) return;
@@ -171,17 +167,25 @@ const editMode = (id: string): void => {
   );
   data.value.isEdit = true;
 };
-const deleteWord = (index: number): void => {
-  (data.value.wordsList as ILanguageWord[]).splice(index, 1);
-};
-const updateWord = (): void => {
-  data.value.isEdit = !isValid();
+const updateWord = async (id: string) => {
+  const isValid = modelValidation();
+  if (isValid) {
+    const newModel = findLanguagebyId(id);
+    if (newModel != null) {
+      if (data.value.newItem) {
+        await languageWordStore.dispatchCreateWord(newModel);
+      } else {
+        await languageWordStore.dispatchUpdateWord(newModel);
+      }
+    }
+  }
+  data.value.isEdit = !isValid;
   data.value.newItem = false;
 };
 const cancelWord = (index: number): void => {
   updatePreviousLanguage();
   if (data.value.newItem) {
-    (data.value.wordsList as ILanguageWord[]).splice(index, 1);
+    languageWordStore.words.splice(index, 1);
   }
   data.value.isEdit = false;
   data.value.newItem = false;
@@ -189,7 +193,7 @@ const cancelWord = (index: number): void => {
   data.value.validation.mainLanguage = false;
   data.value.validation.foreignLanguage = false;
 };
-const isValid = (): boolean => {
+const modelValidation = (): boolean => {
   var isSuccess = true;
   const mainLanguageInput = document.getElementById(
     "mainLangEdit"
@@ -211,28 +215,21 @@ const isValid = (): boolean => {
   return isSuccess;
 };
 const updatePreviousLanguage = (): void => {
-  var words = data.value.wordsList?.map((obj: ILanguageWord) => {
+  var words = languageWordStore.words?.map((obj: ILanguageWord) => {
     if (obj.id == data.value.selectedId) {
       return (obj = data.value.previousValues);
     }
     return obj;
   });
-  data.value.wordsList = words;
+  languageWordStore.words = words;
 };
 const findLanguagebyId = (id: string): ILanguageWord | null => {
-  return data.value.wordsList?.find(
+  return languageWordStore.words?.find(
     (x: ILanguageWord) => x.id == id
   ) as ILanguageWord | null;
 };
-const createNewLangWord = (languageData: ILanguageWord[]): ILanguageWord => {
-  let newObj: ILanguageWord = LanguageWord.createInstance(
-    getLastId(languageData)
-  );
-  return newObj;
-};
 const getLanguageData = computed((): ILanguageWord[] => {
-  var words = data.value.wordsList as ILanguageWord[];
-  return sortLanguageWordDescending(words);
+  return sortLanguageWordDescending(languageWordStore.words);
 });
 const showError = computed(() => {
   return data.value.errors.length > 0;

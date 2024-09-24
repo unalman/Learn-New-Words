@@ -1,7 +1,6 @@
 import type { ILanguageWord } from "typings/interface/ILanguageWord";
 
 interface IWordTable {
-  wordsList: ILanguageWord[];
   isEdit: boolean;
   selectedId: string;
   newItem: boolean;
