@@ -92,6 +92,69 @@ func TestApiGetWordsFailed(t *testing.T) {
 	assert.Equal(t, 404, w.Code)
 	assert.Equal(t, sql.ErrConnDone.Error(), resM.Error)
 }
+func TestApiGetRandomWords(t *testing.T) {
+	s, mock := MockCreatePostgreSqlConnection()
+	defer func() {
+		s.db.Close()
+	}()
+	rows := sqlmock.NewRows([]string{"id", "created_at", "main_language", "foreign_language"})
+	var expectedLength = len(ws)
+	for _, wm := range ws {
+		rows.AddRow(wm.Id, wm.Created_at, wm.Main_language, wm.Foreign_language)
+	}
+	query := "SELECT * FROM word ORDER BY RANDOM() LIMIT 3"
+	mock.ExpectQuery(regexp.QuoteMeta(query)).WillReturnRows(rows)
+
+	server := NewApiServer(os.Getenv("API_HOST")+":"+os.Getenv("API_PORT"), s)
+	router := server.SetupRouter()
+	router = GetRandomWords(server, router)
+	w := httptest.NewRecorder()
+	w.Header().Set("Content-Type", "application/json")
+	req, _ := http.NewRequest("GET", "/random-words", nil)
+	req.Header.Add("Accept", "application/json")
+	router.ServeHTTP(w, req)
+	var resM ResponseModel[[]*Word]
+	decoder := json.NewDecoder(w.Body)
+
+	err := decoder.Decode(&resM)
+	if err != nil {
+		t.Errorf("Json decoder doesn't work: %s", err)
+	}
+	if resM.Data == nil {
+		t.Errorf("Response is nil")
+	}
+
+	assert.Equal(t, 200, w.Code)
+	assert.Len(t, resM.Data, expectedLength)
+}
+func TestApiGetRandomWordsFailed(t *testing.T) {
+	s, mock := MockCreatePostgreSqlConnection()
+	defer func() {
+		s.db.Close()
+	}()
+
+	query := "SELECT * FROM word ORDER BY RANDOM() LIMIT 3"
+	mock.ExpectQuery(regexp.QuoteMeta(query)).WillReturnError(sql.ErrConnDone)
+
+	server := NewApiServer(os.Getenv("API_HOST")+":"+os.Getenv("API_PORT"), s)
+	router := server.SetupRouter()
+	router = GetRandomWords(server, router)
+	w := httptest.NewRecorder()
+	w.Header().Set("Content-Type", "application/json")
+	req, _ := http.NewRequest("GET", "/random-words", nil)
+	req.Header.Add("Accept", "application/json")
+	router.ServeHTTP(w, req)
+	var resM ResponseModel[[]*Word]
+	decoder := json.NewDecoder(w.Body)
+
+	err := decoder.Decode(&resM)
+	if err != nil {
+		t.Errorf("Json decoder doesn't work: %s", err)
+	}
+
+	assert.Equal(t, 404, w.Code)
+	assert.Equal(t, sql.ErrConnDone.Error(), resM.Error)
+}
 func TestApiGetWord(t *testing.T) {
 	s, mock := MockCreatePostgreSqlConnection()
 	defer func() {

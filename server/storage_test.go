@@ -166,6 +166,39 @@ func TestGetListWordFailed(t *testing.T) {
 		t.Errorf("[TestGetListWord] word error assertion failed, got err %v", err)
 	}
 }
+func TestGetRandomListWord(t *testing.T) {
+	s, mock := MockCreatePostgreSqlConnection()
+	defer func() {
+		s.db.Close()
+	}()
+	rows := sqlmock.NewRows([]string{"id", "created_at", "main_language", "foreign_language"})
+	var expectedLength = len(ws)
+	for _, wm := range ws {
+		rows.AddRow(wm.Id, wm.Created_at, wm.Main_language, wm.Foreign_language)
+	}
+	query := "SELECT * FROM word ORDER BY RANDOM() LIMIT 5"
+	mock.ExpectQuery(regexp.QuoteMeta(query)).WillReturnRows(rows)
+
+	words, err := s.GetRandomListWord()
+	assert.NotNil(t, words)
+	assert.NoError(t, err)
+	assert.Len(t, words, expectedLength)
+}
+func TestGetRandomListWordFailed(t *testing.T) {
+	s, mock := MockCreatePostgreSqlConnection()
+	defer func() {
+		s.db.Close()
+	}()
+
+	query := "SELECT * FROM word ORDER BY RANDOM() LIMIT 5"
+	mock.ExpectQuery(regexp.QuoteMeta(query)).WillReturnError(sql.ErrConnDone)
+	words, err := s.GetRandomListWord()
+	assert.Nil(t, words)
+	assert.Error(t, err)
+	if !errors.Is(err, sql.ErrConnDone) {
+		t.Errorf("[TestGetRandomListWord] word error assertion failed, got err %v", err)
+	}
+}
 func TestUpdateWord(t *testing.T) {
 	s, mock := MockCreatePostgreSqlConnection()
 	defer func() {

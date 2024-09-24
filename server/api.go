@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,6 +31,12 @@ func NewApiServer(listenAddr string, storage Storage) *APIServer {
 // API routers
 func (s *APIServer) SetupRouter() *gin.Engine {
 	router := gin.Default()
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"PUT", "POST", "GET", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"*"},
+		AllowCredentials: true,
+	}))
 	return router
 }
 
@@ -38,6 +45,22 @@ func GetWords(s *APIServer, r *gin.Engine) *gin.Engine {
 	r.GET("/words", func(c *gin.Context) {
 		var responseModel ResponseModel[[]*Word]
 		word, err := s.store.GetListWord()
+		if err != nil {
+			responseModel.Error = err.Error()
+			c.IndentedJSON(http.StatusNotFound, responseModel)
+			return
+		}
+		responseModel.Data = word
+		c.IndentedJSON(http.StatusOK, responseModel)
+	})
+	return r
+}
+
+// Get Random Word List model
+func GetRandomWords(s *APIServer, r *gin.Engine) *gin.Engine {
+	r.GET("/random-words", func(c *gin.Context) {
+		var responseModel ResponseModel[[]*Word]
+		word, err := s.store.GetRandomListWord()
 		if err != nil {
 			responseModel.Error = err.Error()
 			c.IndentedJSON(http.StatusNotFound, responseModel)
